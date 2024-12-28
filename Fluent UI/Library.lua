@@ -108,12 +108,12 @@ local aa = {
     function()
         local c, d, e, f, g = b(1)
         local h, i, j, k, l, m =
-            game:GetService("Lighting"),
-            game:GetService("RunService"),
-            game:GetService("Players").LocalPlayer,
-            game:GetService("UserInputService"),
-            game:GetService("TweenService"),
-            game:GetService("Workspace").CurrentCamera
+            game:GetService "Lighting",
+            game:GetService "RunService",
+            game:GetService "Players".LocalPlayer,
+            game:GetService "UserInputService",
+            game:GetService "TweenService",
+            game:GetService "Workspace".CurrentCamera
         local n, o = j:GetMouse(), d
         local p, q, r, s = e(o.Creator), e(o.Elements), e(o.Acrylic), o.Components
         local t, u, v = e(s.Notification), p.New, protectgui or (syn and syn.protect_gui) or function()
@@ -188,7 +188,7 @@ local aa = {
         function x.CreateWindow(C, D)
             assert(D.Title, "Window - Missing Title")
             if x.Window then
-                print("You cannot create more than one window.")
+                print "You cannot create more than one window."
                 return
             end
             x.MinimizeKey = D.MinimizeKey
@@ -257,7 +257,7 @@ local aa = {
                 for k, l in pairs(j) do
                     l.Enabled = false
                 end
-                i.Parent = game:GetService("Lighting")
+                i.Parent = game:GetService "Lighting"
             end
             function h.Disable()
                 for k, l in pairs(j) do
@@ -271,11 +271,11 @@ local aa = {
                         j[k] = {enabled = k.Enabled}
                     end
                 end
-                for l, m in pairs(game:GetService("Lighting"):GetChildren()) do
+                for l, m in pairs(game:GetService "Lighting":GetChildren()) do
                     k(m)
                 end
-                if game:GetService("Workspace").CurrentCamera then
-                    for n, o in pairs(game:GetService("Workspace").CurrentCamera:GetChildren()) do
+                if game:GetService "Workspace".CurrentCamera then
+                    for n, o in pairs(game:GetService "Workspace".CurrentCamera:GetChildren()) do
                         k(o)
                     end
                 end
@@ -298,7 +298,7 @@ local aa = {
                     n.topRight = q + Vector2.new(p.X, 0)
                     n.bottomRight = q + p
                 end, function()
-                    local p = game:GetService("Workspace").CurrentCamera
+                    local p = game:GetService "Workspace".CurrentCamera
                     if p then
                         p = p.CFrame
                     end
@@ -318,13 +318,13 @@ local aa = {
                     p(t, u)
                     task.spawn(q)
                 end, function()
-                    local r = game:GetService("Workspace").CurrentCamera
+                    local r = game:GetService "Workspace".CurrentCamera
                     if not r then
                         return
                     end
-                    table.insert(m, r:GetPropertyChangedSignal("CFrame"):Connect(q))
-                    table.insert(m, r:GetPropertyChangedSignal("ViewportSize"):Connect(q))
-                    table.insert(m, r:GetPropertyChangedSignal("FieldOfView"):Connect(q))
+                    table.insert(m, r:GetPropertyChangedSignal "CFrame":Connect(q))
+                    table.insert(m, r:GetPropertyChangedSignal "ViewportSize":Connect(q))
+                    table.insert(m, r:GetPropertyChangedSignal "FieldOfView":Connect(q))
                     task.spawn(q)
                 end
             o.Destroying:Connect(
@@ -345,20 +345,20 @@ local aa = {
             local n, o, p = {}, l(m)
             local q = h.New("Frame", {BackgroundTransparency = 1, Size = UDim2.fromScale(1, 1)})
             h.AddSignal(
-                q:GetPropertyChangedSignal("AbsolutePosition")
+                q:GetPropertyChangedSignal "AbsolutePosition",
                 function()
                     o(q)
                 end
             )
             h.AddSignal(
-                q:GetPropertyChangedSignal("AbsoluteSize"),
+                q:GetPropertyChangedSignal "AbsoluteSize",
                 function()
                     o(q)
                 end
             )
             n.AddParent = function(r)
                 h.AddSignal(
-                    r:GetPropertyChangedSignal("Visible"),
+                    r:GetPropertyChangedSignal "Visible",
                     function()
                         n.SetVisibility(r.Visible)
                     end
@@ -501,11 +501,11 @@ local aa = {
         local h, i = function(h, i, j, k, l)
                 return (h - i) * (l - k) / (j - i) + k
             end, function(h, i)
-                local j = game:GetService("Workspace").CurrentCamera:ScreenPointToRay(h.X, h.Y)
+                local j = game:GetService "Workspace".CurrentCamera:ScreenPointToRay(h.X, h.Y)
                 return j.Origin + j.Direction * i
             end
         local j = function()
-            local j = game:GetService("Workspace").CurrentCamera.ViewportSize.Y
+            local j = game:GetService "Workspace".CurrentCamera.ViewportSize.Y
             return h(j, 0, 2560, 8, 56)
         end
         return {i, j}
@@ -599,9 +599,9 @@ local aa = {
     [10] = function()
         local c, d, e, f, g = b(10)
         local h, i, j, k =
-            game:GetService("UserInputService"),
-            game:GetService("Players").LocalPlayer:GetMouse(),
-            game:GetService("Workspace").CurrentCamera,
+            game:GetService "UserInputService",
+            game:GetService "Players".LocalPlayer:GetMouse(),
+            game:GetService "Workspace".CurrentCamera,
             d.Parent.Parent
         local l, m = e(k.Packages.Flipper), e(k.Creator)
         local n, o, p, q = l.Spring.new, l.Instant.new, m.New, {Window = nil}
@@ -1588,7 +1588,7 @@ local aa = {
                 function()
                     p.Window:Dialog {
                         Title = "Close",
-                        Content = "Are you sure you want to close the interface?",
+                        Content = "Are you sure you want to unload the interface?",
                         Buttons = {
                             {
                                 Title = "Yes",
@@ -1625,9 +1625,9 @@ local aa = {
     [17] = function()
         local c, d, e, f, g = b(17)
         local h, i, j, k =
-            game:GetService("UserInputService"),
-            game:GetService("Players").LocalPlayer:GetMouse(),
-            game:GetService("Workspace").CurrentCamera,
+            game:GetService "UserInputService",
+            game:GetService "Players".LocalPlayer:GetMouse(),
+            game:GetService "Workspace".CurrentCamera,
             d.Parent.Parent
         local l, m, n, o, p = e(k.Packages.Flipper), e(k.Creator), e(k.Acrylic), e(d.Parent.Assets), d.Parent
         local q, r, s = l.Spring.new, l.Instant.new, m.New
@@ -1894,7 +1894,7 @@ local aa = {
                 if not C then
                     C = true
                     local N = u.MinimizeKeybind and u.MinimizeKeybind.Value or u.MinimizeKey.Name
-                    u:Notify {Title = "Interface", Content = "Press " .. N .. " to toggle the interface.", Duration = 6}
+                    u:Notify {Title = "Interface", Content = "Press " .. N .. " to toggle the inteface.", Duration = 6}
                 end
             end
             function v.Destroy(M)
@@ -2155,10 +2155,10 @@ local aa = {
     [21] = function()
         local c, d, e, f, g = b(21)
         local h, i, j, k =
-            game:GetService("UserInputService"),
-            game:GetService("TouchInputService"),
-            game:GetService("RunService"),
-            game:GetService("Players"),
+            game:GetService "UserInputService",
+            game:GetService "TouchInputService",
+            game:GetService "RunService",
+            game:GetService "Players"
         local l, m = j.RenderStepped, k.LocalPlayer
         local n, o = m:GetMouse(), d.Parent.Parent
         local p = e(o.Creator)
@@ -2637,10 +2637,10 @@ local aa = {
     [22] = function()
         local aa, ab, ac, ad, ae = b(22)
         local af, ag, ah, ai, aj =
-            game:GetService("TweenService"),
-            game:GetService("UserInputService"),
-            game:GetService("Players").LocalPlayer:GetMouse(),
-            game:GetService("Workspace"),CurrentCamera,
+            game:GetService "TweenService",
+            game:GetService "UserInputService",
+            game:GetService "Players".LocalPlayer:GetMouse(),
+            game:GetService "Workspace".CurrentCamera,
             ab.Parent.Parent
         local c, d = ac(aj.Creator), ac(aj.Packages.Flipper)
         local e, f, g = c.New, aj.Components, {}
@@ -4412,7 +4412,7 @@ local aa = {
     end,
     [31] = function()
         local aa, ab, ac, ad, ae = b(31)
-        local af, ag, ah, ai = game:GetService("RunService", ac(ab.Parent.Signal), function()
+        local af, ag, ah, ai = game:GetService "RunService", ac(ab.Parent.Signal), function()
             end, {}
         ai.__index = ai
         function ai.new()
@@ -4455,7 +4455,7 @@ local aa = {
     [32] = function()
         local aa, ab, ac, ad, ae = b(32)
         return function()
-            local af, ag = game:GetService("RunService"), ac(ab.Parent.BaseMotor)
+            local af, ag = game:GetService "RunService", ac(ab.Parent.BaseMotor)
             describe(
                 "connection management",
                 function()
