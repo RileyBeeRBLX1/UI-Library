@@ -1371,7 +1371,6 @@ local TweenService = game:GetService("TweenService")
 local player = Players.LocalPlayer
 local mouse = player:GetMouse()
 
-local hovering = false
 local sliding = false
 local moveConnection, releaseConnection
 local Value
@@ -1422,10 +1421,18 @@ end)
 
 UserInputService.TouchMoved:Connect(function(input)
     if sliding then
-        updateSlider(sliderDrag, val, minvalue, maxvalue, input.Position.X)
+        local touchPosition = Vector2.new(input.Position.X, input.Position.Y)
+        local sliderBounds = sliderBtn.AbsolutePosition
+        local sliderSize = sliderBtn.AbsoluteSize
+
+        if touchPosition.X >= sliderBounds.X and touchPosition.X <= sliderBounds.X + sliderSize.X
+            and touchPosition.Y >= sliderBounds.Y and touchPosition.Y <= sliderBounds.Y + sliderSize.Y then
+            updateSlider(sliderDrag, val, minvalue, maxvalue, input.Position.X)
+        else
+            sliding = false
+        end
     end
 end)
-
             function Elements:NewDropdown(dropname, dropinf, list, callback)
                 local DropFunction = {}
                 dropname = dropname or "Dropdown"
