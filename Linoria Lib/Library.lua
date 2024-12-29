@@ -2672,6 +2672,11 @@ SliderInner.InputBegan:Connect(function(Input)
             Library.CanDrag = false;
         end;
 
+        if Library.CanDrag ~= nil then
+            Library.PreviousDragState = Library.CanDrag;
+            Library.CanDrag = false;
+        end;
+
         local Sides = {};
         if Library.Window then
             Sides = Library.Window.Tabs[Library.ActiveTab]:GetSides();
@@ -2709,6 +2714,11 @@ SliderInner.InputBegan:Connect(function(Input)
 
         if Library.IsMobile then
             Library.CanDrag = true;
+        end;
+
+        if Library.PreviousDragState ~= nil then
+            Library.CanDrag = Library.PreviousDragState;
+            Library.PreviousDragState = nil;
         end;
 
         for _, Side in pairs(Sides) do
