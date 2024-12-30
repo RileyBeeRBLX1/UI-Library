@@ -2672,9 +2672,8 @@ SliderInner.InputBegan:Connect(function(Input)
             Library.CanDrag = false;
         end;
 
-        if Library.CanDrag ~= nil then
-            Library.PreviousDragState = Library.CanDrag;
-            Library.CanDrag = false;
+        if Library.PreventDragging ~= nil then
+            Library.PreventDragging = true;
         end;
 
         local Sides = {};
@@ -2716,9 +2715,8 @@ SliderInner.InputBegan:Connect(function(Input)
             Library.CanDrag = true;
         end;
 
-        if Library.PreviousDragState ~= nil then
-            Library.CanDrag = Library.PreviousDragState;
-            Library.PreviousDragState = nil;
+        if Library.PreventDragging ~= nil then
+            Library.PreventDragging = false;
         end;
 
         for _, Side in pairs(Sides) do
