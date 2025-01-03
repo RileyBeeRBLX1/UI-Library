@@ -1054,18 +1054,21 @@ function OrionLib:MakeWindow(WindowConfig)
 				}), "Second")
 
 				SliderBar.InputBegan:Connect(function(Input)
-					if Input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then 
+					if Input.UserInputType == Enum.UserInputType.MouseButton1 or
+					Input.UserInputType == Enum.UserInputType.Touch then 
 						Dragging = true 
 					end 
 				end)
 				SliderBar.InputEnded:Connect(function(Input) 
-					if Input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then 
+					if Input.UserInputType == Enum.UserInputType.MouseButton1 or
+					Input.UserInputType == Enum.UserInputType.Touch then 
 						Dragging = false 
 					end 
 				end)
 
 				UserInputService.InputChanged:Connect(function(Input)
-					if Dragging and Input.UserInputType == Enum.UserInputType.MouseMovement oe input.UserInputType == Enum.UserInputType.Touch then 
+					if Dragging and (Input.UserInputType == Enum.UserInputType.MouseMovement or 
+					Input.UserInputType == Enum.UserInputType.Touch) then
 						local SizeScale = math.clamp((Input.Position.X - SliderBar.AbsolutePosition.X) / SliderBar.AbsoluteSize.X, 0, 1)
 						Slider:Set(SliderConfig.Min + ((SliderConfig.Max - SliderConfig.Min) * SizeScale)) 
 						SaveCfg(game.GameId)
@@ -1548,92 +1551,76 @@ function OrionLib:MakeWindow(WindowConfig)
 
 				AddConnection(Click.MouseButton1Click, function()
 					Colorpicker.Toggled = not Colorpicker.Toggled
-          TweenService:Create(ColorpickerFrame, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = Colorpicker.Toggled and UDim2.new(1, 0, 0, 148) or UDim2.new(1, 0, 0, 38)}):Play()
-          Color.Visible = Colorpicker.Toggled
-          Hue.Visible = Colorpicker.Toggled
-          ColorpickerFrame.F.Line.Visible = Colorpicker.Toggled
+					TweenService:Create(ColorpickerFrame,TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),{Size = Colorpicker.Toggled and UDim2.new(1, 0, 0, 148) or UDim2.new(1, 0, 0, 38)}):Play()
+					Color.Visible = Colorpicker.Toggled
+					Hue.Visible = Colorpicker.Toggled
+					ColorpickerFrame.F.Line.Visible = Colorpicker.Toggled
 				end)
 
 				local function UpdateColorPicker()
 					ColorpickerBox.BackgroundColor3 = Color3.fromHSV(ColorH, ColorS, ColorV)
-          Color.BackgroundColor3 = Color3.fromHSV(ColorH, 1, 1)
-          Colorpicker:Set(ColorpickerBox.BackgroundColor3)
-          ColorpickerConfig.Callback(ColorpickerBox.BackgroundColor3)
-          SaveCfg(game.GameId)
+					Color.BackgroundColor3 = Color3.fromHSV(ColorH, 1, 1)
+					Colorpicker:Set(ColorpickerBox.BackgroundColor3)
+					ColorpickerConfig.Callback(ColorpickerBox.BackgroundColor3)
+					SaveCfg(game.GameId)
 				end
 
 				ColorH = 1 - (math.clamp(HueSelection.AbsolutePosition.Y - Hue.AbsolutePosition.Y, 0, Hue.AbsoluteSize.Y) / Hue.AbsoluteSize.Y)
 				ColorS = (math.clamp(ColorSelection.AbsolutePosition.X - Color.AbsolutePosition.X, 0, Color.AbsoluteSize.X) / Color.AbsoluteSize.X)
 				ColorV = 1 - (math.clamp(ColorSelection.AbsolutePosition.Y - Color.AbsolutePosition.Y, 0, Color.AbsoluteSize.Y) / Color.AbsoluteSize.Y)
 
-	AddConnection(Color.InputBegan, function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or 
-   input.UserInputType == Enum.UserInputType.Touch then
-    if ColorInput then
-        ColorInput:Disconnect()
-    end
-    
-    ColorInput = RunService.RenderStepped:Connect(function()
-        local inputPosition = 
-            UserInputService:GetLastInputType() == Enum.UserInputType.Touch and 
-            input.Position or 
-            UserInputService:GetMouseLocation()
+				AddConnection(Color.InputBegan, function(input)
+					if input.UserInputType == Enum.UserInputType.MouseButton1 or
+					input.UserInputType == Enum.UserInputType.Touch then
+						if ColorInput then
+							ColorInput:Disconnect()
+						end
+						ColorInput = AddConnection(RunService.RenderStepped, function()
+							local ColorX = (math.clamp(Mouse.X - Color.AbsolutePosition.X, 0, Color.AbsoluteSize.X) / Color.AbsoluteSize.X)
+							local ColorY = (math.clamp(Mouse.Y - Color.AbsolutePosition.Y, 0, Color.AbsoluteSize.Y) / Color.AbsoluteSize.Y)
+							ColorSelection.Position = UDim2.new(ColorX, 0, ColorY, 0)
+							ColorS = ColorX
+							ColorV = 1 - ColorY
+							UpdateColorPicker()
+						end)
+					end
+				end)
 
-        local ColorX = math.clamp((inputPosition.X - Color.AbsolutePosition.X) / Color.AbsoluteSize.X,
-            0,
-            1
-        )
-        local ColorY = math.clamp(
-            (inputPosition.Y - Color.AbsolutePosition.Y) / Color.AbsoluteSize.Y,
-            0,
-            1
-        )
-        
-        ColorSelection.Position = UDim2.new(ColorX, 0, ColorY, 0)
-        ColorS = ColorX
-        ColorV = 1 - ColorY
-        UpdateColorPicker()
-    end)
-end
-end)
+				AddConnection(Color.InputEnded, function(input)
+					if input.UserInputType == Enum.UserInputType.MouseButton1 or
+					input.UserInputType == Enum.UserInputType.Touch then
+						if ColorInput then
+							ColorInput:Disconnect()
+						end
+					end
+				end)
 
-AddConnection(Color.InputEnded, function(input)
-					if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch
-                         then
-                            if ColorInput then
-                                ColorInput:Disconnect()
-                                ColorInput = nil
-                            end
-                        end
-end)
+				AddConnection(Hue.InputBegan, function(input)
+					if input.UserInputType == Enum.UserInputType.MouseButton1 or 
+					input.UserInputType == Enum.UserInputType.Touch then
+						if HueInput then
+							HueInput:Disconnect()
+						end;
 
-AddConnection(Hue.InputBegan, function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 or 
-       input.UserInputType == Enum.UserInputType.Touch then
-        if HueInput then
-            HueInput:Disconnect()
-        end
+						HueInput = AddConnection(RunService.RenderStepped, function()
+							local HueY = (math.clamp(Mouse.Y - Hue.AbsolutePosition.Y, 0, Hue.AbsoluteSize.Y) / Hue.AbsoluteSize.Y)
 
-        HueInput = AddConnection(RunService.RenderStepped, function()
-            local HueY = math.clamp(Mouse.Y - Hue.AbsolutePosition.Y, 0, Hue.AbsoluteSize.Y) / Hue.AbsoluteSize.Y
+							HueSelection.Position = UDim2.new(0.5, 0, HueY, 0)
+							ColorH = 1 - HueY
 
-            HueSelection.Position = UDim2.new(0.5, 0, HueY, 0)
-            ColorH = 1 - HueY
+							UpdateColorPicker()
+						end)
+					end
+				end)
 
-            UpdateColorPicker()
-        end)
-    end
-end)
-
-
-	AddConnection(Hue.InputEnded, function(input)
-				if input.UserInputType == Enum.UserInputType.MouseButton1 or 
-        input.UserInputType == Enum.UserInputType.Touch then
-        if HueInput then
-        HueInput:Disconnect()
-       end
-    end
-end)
+				AddConnection(Hue.InputEnded, function(input)
+					if input.UserInputType == Enum.UserInputType.MouseButton1 or 
+                                        input.UserInputType == Enum.UserInputType.Touch then
+                                         if HueInput then
+                                         HueInput:Disconnect()
+                                     end
+                                 end
+                             end)
 
 				function Colorpicker:Set(Value)
 					Colorpicker.Value = Value
@@ -1728,7 +1715,7 @@ end)
 			})
 		end
 		return ElementFunction   
-	end  	
+	end
 	return TabFunction
 end   
 
