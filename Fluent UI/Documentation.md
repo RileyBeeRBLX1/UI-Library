@@ -101,7 +101,7 @@ Tabs.Main:AddButton({
 Tabs.Main:AddToggle("Toggle", {
   Title = "Toggle", 
   Default = false,
-  Callback= function(Value)
+  Callback = function(Value)
   -- Script Here
   end
 })
