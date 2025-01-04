@@ -8,6 +8,11 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/blood
 
 ## Creating a Wizard UI Window
 ```lua
+local PhantomForcesWindow = Library:NewWindow("Combat")
+```
+
+## Creating a Section
+```lua
 local KillingCheats = PhantomForcesWindow:NewSection("Kill Options")
 ```
 
