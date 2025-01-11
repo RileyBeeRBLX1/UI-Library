@@ -13,7 +13,7 @@ local Window = Material.Load({
 	Style = 3,
 	SizeX = 500,
 	SizeY = 350,
-	Theme = "Light",
+	Theme = "Dark",
 })
 ```
 
@@ -71,28 +71,36 @@ local Dropdown = Tab.Dropdown({
 
 ## Creating a Colorpicker
 ```lua
-local Colorpicker = Tab.ColorPicker({
+local ColorPicker = Tab.ColorPicker({
 	Text = "Color Picker",
-	Default = Color3.fromRGB(0,255,110),
+	Default = Color3.fromRGB(0, 255, 110),
 	Callback = function(Value)
 		print("RGB:", Value.R * 255, Value.G * 255, Value.B * 255)
 	end,
 })
 ```
 
+## Creating a Label
+```lua
+Tab.Label({
+	Text = "This Is An Label"
+})
+```
+
+
 ## Creating a Text-Field
 ```lua
 local TextField = Tab.TextField({
 	Text = "Choose Number",
 	Menu = {
-		One = function(self)
-			self.SetText("One")
+		GB = function(self)
+			self.SetText("GB")
 		end,
-		Two = function(self)
-			self.SetText("Two")
+		JP = function(self)
+			self.SetText("JP")
 		end,
-		Three = function(self)
-			self.SetText("Three")
+		KO = function(self)
+			self.SetText("KO")
 		end
 	},
 	Callback = function(Value)
