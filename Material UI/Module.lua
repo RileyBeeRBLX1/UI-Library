@@ -2010,7 +2010,7 @@ function Material.Load(Config)
 					H.Value = 1 - GetXY(HueTracker)
 				end)
 				MouseKill = InputService.InputEnded:Connect(function(UserInput)
-					if UserInput.UserInputType == Enum.UserInputType.MouseButton1 or if UserInput.UserInputType == Enum.UserInputType.Touch then
+					if UserInput.UserInputType == Enum.UserInputType.MouseButton1 or UserInput.UserInputType == Enum.UserInputType.Touch then
 						MouseMove:Disconnect()
 						MouseKill:Disconnect()
 					end
@@ -2024,7 +2024,7 @@ function Material.Load(Config)
 					V.Value = 1 - GetXY(HueTracker)
 				end)
 				MouseKill = InputService.InputEnded:Connect(function(UserInput)
-					if UserInput.UserInputType == Enum.UserInputType.MouseButton1 or if UserInput.UserInputType == Enum.UserInputType.Touch then
+					if UserInput.UserInputType == Enum.UserInputType.MouseButton1 or UserInput.UserInputType == Enum.UserInputType.Touch then
 						MouseMove:Disconnect()
 						MouseKill:Disconnect()
 					end
@@ -2038,7 +2038,7 @@ function Material.Load(Config)
 					S.Value = 1 - GetXY(HueTracker)
 				end)
 				MouseKill = InputService.InputEnded:Connect(function(UserInput)
-					if UserInput.UserInputType == Enum.UserInputType.MouseButton1 or if UserInput.UserInputType == Enum.UserInputType.Touch then
+					if UserInput.UserInputType == Enum.UserInputType.MouseButton1 or UserInput.UserInputType == Enum.UserInputType.Touch then
 						MouseMove:Disconnect()
 						MouseKill:Disconnect()
 					end
