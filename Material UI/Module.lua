@@ -792,36 +792,36 @@ function Material.Load(Config)
 	TitleText.Font = Enum.Font.GothamBold
 	TitleText.Parent = TitleBar
 
-  local frame = MainFrame
-  local dragInput, dragStart, startPos
+local frame = MainFrame
+local dragInput, dragStart, startPos
+local dragging = false
 
-	TitleText.MouseButton1Down:Connect(function()
-  local function update(input)
+local function update(input)
     local delta = input.Position - dragStart
-		frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 end
-frame.InputBegan:Connect(function(input)
-      if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-			dragging = true
-			dragStart = input.Position
-			startPos = frame.Position
-      input.Changed:Connect(function()
-				if input.UserInputState == Enum.UserInputState.End then
-					dragging = false
-				end
-			end)
-		end
-end)
-frame.InputChanged:Connect(function(input)
+
+TitleText.MouseButton1Down:Connect(function()
+    dragging = true
+    dragStart = InputService.GetMouseLocation()
+    startPos = frame.Position
+    
+    local inputConn
+    inputConn = InputService.InputChanged:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-			dragInput = input
-		end
-	end)
-InputService.InputChanged:Connect(function(input)
-		if input == dragInput and dragging then
-			update(input)
-		end
-end)
+            dragInput = input
+            if dragging then
+                update(input)
+            end
+        end
+    end)
+
+    InputService.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = false
+            inputConn:Disconnect()						
+        end
+    end)
 end)
 
 	local MinimiseButton = Objects.new("SmoothButton")
