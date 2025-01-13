@@ -324,6 +324,21 @@ Bar.BackgroundTransparency = 1
 Bar.Parent = Window
 Lib:UICorner(Bar,5)
 
+local Title = Instance.new("TextLabel")
+Title.Visible = true
+Title.Name = "Title"
+Title.Text = name
+Title.Font = Enum.Font.Nunito
+Title.TextSize = 18
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.BackgroundTransparency = 1
+Title.Position = UDim2.new(0.02, 0, 0.5, 0)
+Title.AnchorPoint = Vector2.new(0, 0.5)
+Title.Size = UDim2.new(0.3, 0, 1, 0)
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.ZIndex = 4
+Title.Parent = Bar
+
 print(Bar.Size)
 warn(Lib:Scale(Bar,Bar.Parent))
 
