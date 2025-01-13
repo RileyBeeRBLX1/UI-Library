@@ -324,8 +324,8 @@ Bar.BackgroundTransparency = 1
 Bar.Parent = Window
 Lib:UICorner(Bar,5)
 
-print (Bar.Size)
-warn (Lib:Scale(Bar,Bar.Parent))
+print(Bar.Size)
+warn(Lib:Scale(Bar,Bar.Parent))
 
 local Padding = Instance.new("Frame")
 Padding.Visible = SearchUp or false
