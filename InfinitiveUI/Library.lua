@@ -491,26 +491,14 @@ local Timer = time or 0.05
 local Info = TweenInfo.new(Timer)
 local Goal = {}
 local guiInset = game:GetService("GuiService"):GetGuiInset()
-local ISX,ISY = Icon.AbsoluteSize.X, Icon.AbsoluteSize.Y
-local DSX,DSY = ISX*0.575,ISY*0.575
-local GSX,GSY = ISX+guiInset.X,ISY+guiInset.Y
-Goal.Size = UDim2.new(0,ISX*0.75,0,ISY*0.75)
-Goal.Position = UDim2.new(0,Icon.AbsolutePosition.X+DSX,0,Icon.AbsolutePosition.Y+DSY)
-Tween = TweenService:Create(Window,Info,Goal)
+Goal.Size = UDim2.new(0, 0, 0, 0)
+Goal.Position = UDim2.new(0, Window.AbsolutePosition.X + (Window.AbsoluteSize.X / 2), 0, Window.AbsolutePosition.Y + (Window.AbsoluteSize.Y / 2))
+Tween = TweenService:Create(Window, Info, Goal)
 windowpos = Window.Position
 closefunc()
 WindowBox.Visible = false
 Tween:Play()
-TweenService:Create(Close, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {
-    ImageTransparency = 1
-}):Play()
-task.wait()
-TweenService:Create(Window, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-    Size = UDim2.new(0, 0, 0, 0),
-    Position = UDim2.new(0, Window.AbsolutePosition.X + (Window.AbsoluteSize.X / 2), 0, Window.AbsolutePosition.Y + (Window.AbsoluteSize.Y / 2))
-}):Play()
 task.wait(1)
-Icon.Visible = true
 Window.Visible = false
 ui_minimized = true
 return ui_minimized
