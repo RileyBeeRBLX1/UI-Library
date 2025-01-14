@@ -425,38 +425,38 @@ function lib:Window(text, preset, closebind)
         )
         local tabcontent = {}
         function tabcontent:Section(text)
-            local Section = Instance.new("TextButton")
-            local SectionCorner = Instance.new("UICorner")
-            local SectionTitle = Instance.new("TextLabel")
+    local Section = Instance.new("TextButton")
+    local SectionCorner = Instance.new("UICorner")
+    local SectionTitle = Instance.new("TextLabel")
 
-            Section.Name = "Section"
-            Section.Parent = Tab
-            Section.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
-            Section.Size = UDim2.new(0, 363, 0, 42)
-            Section.AutoButtonColor = false
-            Section.Font = Enum.Font.SourceSans
-            Section.Text = ""
-            Section.TextColor3 = Color3.fromRGB(0, 0, 0)
-            Section.TextSize = 14.000
+    Section.Name = "Section"
+    Section.Parent = Tab
+    Section.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+    Section.Size = UDim2.new(0, 363, 0, 42)
+    Section.AutoButtonColor = false
+    Section.Font = Enum.Font.SourceSans
+    Section.Text = ""
+    Section.TextColor3 = Color3.fromRGB(0, 0, 0)
+    Section.TextSize = 14.000
 
-            SectionCorner.CornerRadius = UDim.new(0.5, 0)
-            SectionCorner.Name = "SectionCorner"
-            SectionCorner.Parent = Section
+    SectionCorner.CornerRadius = UDim.new(0.5, 0)
+    SectionCorner.Name = "SectionCorner"
+    SectionCorner.Parent = Section
 
-            SectionTitle.Name = "SectionTitle"
-            SectionTitle.Parent = Section
-            SectionTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-            SectionTitle.BackgroundTransparency = 1.000
-            SectionTitle.Position = UDim2.new(0.0358126722, 0, 0, 0)
-            SectionTitle.Size = UDim2.new(0, 187, 0, 42)
-            SectionTitle.Font = Enum.Font.Gotham
-            SectionTitle.Text = text
-            SectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-            SectionTitle.TextSize = 14.000
-            SectionTitle.TextXAlignment = Enum.TextXAlignment.Left
+    SectionTitle.Name = "SectionTitle"
+    SectionTitle.Parent = Section
+    SectionTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    SectionTitle.BackgroundTransparency = 1.000
+    SectionTitle.Position = UDim2.new(0.0358126722, 0, 0, 0)
+    SectionTitle.Size = UDim2.new(0, 187, 0, 42)
+    SectionTitle.Font = Enum.Font.Gotham
+    SectionTitle.Text = text
+    SectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SectionTitle.TextSize = 14.000
+    SectionTitle.TextXAlignment = Enum.TextXAlignment.Left
 
-            Tab.CanvasSize = UDim2.new(0, 0, 0, TabLayout.AbsoluteContentSize.Y)
-        end
+        Tab.CanvasSize = UDim2.new(0, 0, 0, TabLayout.AbsoluteContentSize.Y)
+end
         function tabcontent:Button(text, callback)
             local Button = Instance.new("TextButton")
             local ButtonCorner = Instance.new("UICorner")
