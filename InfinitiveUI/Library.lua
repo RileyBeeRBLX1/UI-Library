@@ -216,25 +216,6 @@ else
 	ScreenGui.Parent = CoreGui
 end
 
-local iconsize = 0.15
-local Icon = Instance.new("ImageButton")
-Icon.Visible = false
-Icon.Name = "Icon"
-Icon.BorderSizePixel = 0
-Icon.Image = IconIn
-Icon.ImageTransparency = 0
-Icon.Active = true
-Icon.BackgroundColor3 = Color3.fromRGB(255,255,255)
-Icon.Position = UDim2.new(0.105, 0, 0.05, 0)
-Icon.AnchorPoint = Vector2.new(0.5,0.5)
-Icon.Size = UDim2.new(iconsize, 0, iconsize, 0)
-Icon.Transparency = 0
-Icon.BackgroundTransparency = 1
-Icon.BorderSizePixel = 0
-Icon.ZIndex = 10
-Icon.SizeConstraint = "RelativeYY"
-Icon.Parent = ScreenGui
-
 local winsize = winsize or 0.49994444444444
 local windowsize = UDim2.new(0.41005555555556+winsize, 0, winsize,0)
 local windowpos = nil
@@ -253,7 +234,6 @@ local Goal = {}
 Goal.Size = windowsize
 Goal.Position = windowpos
 Tween = TweenService:Create(Window,Info,Goal)
-Icon.Visible = false
 openfunc()
 Tween:Play()
 Window.Visible = true
