@@ -234,6 +234,7 @@ local Goal = {}
 Goal.Size = windowsize
 Goal.Position = windowpos
 Tween = TweenService:Create(Window,Info,Goal)
+ScreenGui:Destroy()
 openfunc()
 Tween:Play()
 Window.Visible = true
