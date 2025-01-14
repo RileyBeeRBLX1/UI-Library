@@ -245,8 +245,6 @@ ui_minimized = false
 return ui_minimized
 end
 
-DC_[#DC_+1] = Icon.MouseButton1Click:Connect(OpenRS)
-
 WindowBox.Active = false
 WindowBox.Name = "WindowBox"
 WindowBox.BackgroundColor3 = Color3.fromRGB(39,39,39)
