@@ -441,10 +441,10 @@ function lib:Window(text, preset, closebind)
 
             SectionCorner.CornerRadius = UDim.new(0.5, 0)
             SectionCorner.Name = "SectionCorner"
-            SectionCorner.Parent = Label
+            SectionCorner.Parent = Section
 
             SectionTitle.Name = "SectionTitle"
-            SectionTitle.Parent = Label
+            SectionTitle.Parent = Section
             SectionTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             SectionTitle.BackgroundTransparency = 1.000
             SectionTitle.Position = UDim2.new(0.0358126722, 0, 0, 0)
@@ -1306,7 +1306,7 @@ function lib:Window(text, preset, closebind)
 
             Color.InputBegan:Connect(
                 function(input)
-                    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
                         if RainbowColorPicker then
                             return
                         end
@@ -1338,7 +1338,7 @@ function lib:Window(text, preset, closebind)
 
             Color.InputEnded:Connect(
                 function(input)
-                    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
                         if ColorInput then
                             ColorInput:Disconnect()
                         end
@@ -1348,7 +1348,7 @@ function lib:Window(text, preset, closebind)
 
             Hue.InputBegan:Connect(
                 function(input)
-                    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
                         if RainbowColorPicker then
                             return
                         end
@@ -1376,7 +1376,7 @@ function lib:Window(text, preset, closebind)
 
             Hue.InputEnded:Connect(
                 function(input)
-                    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
                         if HueInput then
                             HueInput:Disconnect()
                         end
