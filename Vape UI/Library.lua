@@ -819,7 +819,6 @@ end
     function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
             dragging = true
-            inputBeganOnSlider = true
         end
     end
 )
@@ -827,13 +826,14 @@ SlideCircle.InputEnded:Connect(
     function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
             dragging = false
-            inputBeganOnSlider = false
         end
     end
 )
 game:GetService("UserInputService").InputChanged:Connect(
     function(input)
-        if dragging and inputBeganOnSlider and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        if dragging and input.UserInputType == Enum.UserInputType.Touch then
+            move(input)
+        elseif dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
             move(input)
         end
     end
