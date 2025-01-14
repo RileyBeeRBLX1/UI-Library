@@ -234,7 +234,6 @@ local Goal = {}
 Goal.Size = windowsize
 Goal.Position = windowpos
 Tween = TweenService:Create(Window,Info,Goal)
-ScreenGui:Destroy()
 openfunc()
 Tween:Play()
 Window.Visible = true
@@ -502,7 +501,15 @@ windowpos = Window.Position
 closefunc()
 WindowBox.Visible = false
 Tween:Play()
-task.wait(Timer)
+TweenService:Create(Close, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {
+    ImageTransparency = 1
+}):Play()
+task.wait()
+TweenService:Create(Window, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+    Size = UDim2.new(0, 0, 0, 0),
+    Position = UDim2.new(0, Window.AbsolutePosition.X + (Window.AbsoluteSize.X / 2), 0, Window.AbsolutePosition.Y + (Window.AbsoluteSize.Y / 2))
+}):Play()
+task.wait(1)
 Icon.Visible = true
 Window.Visible = false
 ui_minimized = true
