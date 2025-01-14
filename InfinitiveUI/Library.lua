@@ -490,16 +490,13 @@ function CloseRS(time)
 local Timer = time or 0.05
 local Info = TweenInfo.new(Timer)
 local Goal = {}
-local guiInset = game:GetService("GuiService"):GetGuiInset()
 Goal.Size = UDim2.new(0, 0, 0, 0)
-Goal.Position = UDim2.new(0, Window.AbsolutePosition.X + (Window.AbsoluteSize.X / 2), 0, Window.AbsolutePosition.Y + (Window.AbsoluteSize.Y / 2))
-Tween = TweenService:Create(Window, Info, Goal)
-windowpos = Window.Position
+Goal.Position = UDim2.new(0.5, 0, 0.5, 0)
+Tween = TweenService:Create(ScreenGui, Info, Goal)
 closefunc()
-WindowBox.Visible = false
 Tween:Play()
-task.wait(1)
-Window.Visible = false
+task.wait(Timer)
+ScreenGui:Destroy()
 ui_minimized = true
 return ui_minimized
 end
