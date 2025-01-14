@@ -817,24 +817,26 @@ end
             end
             SlideCircle.InputBegan:Connect(
     function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
             dragging = true
         end
     end
 )
+
 SlideCircle.InputEnded:Connect(
     function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
             dragging = false
         end
     end
 )
+
 game:GetService("UserInputService").InputChanged:Connect(
     function(input)
-        if dragging and input.UserInputType == Enum.UserInputType.Touch then
-            move(input)
-        elseif dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-            move(input)
+        if dragging then
+            if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseMovement then
+                move(input)
+            end
         end
     end
 )
