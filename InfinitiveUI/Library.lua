@@ -487,19 +487,32 @@ Close.SizeConstraint = "RelativeXY"
 Close.Parent = Bar
 
 function CloseRS(time)
-local Timer = time or 0.05
-local Info = TweenInfo.new(Timer)
-local Goal = {}
-Goal.Size = UDim2.new(0, 0, 0, 0)
-Goal.Position = UDim2.new(0.5, 0, 0.5, 0)
-Tween = TweenService:Create(ScreenGui, Info, Goal)
-closefunc()
-Tween:Play()
-task.wait(Timer)
-ScreenGui:Destroy()
-ui_minimized = true
-return ui_minimized
+    local Timer = time or 0.05
+    local Info = TweenInfo.new(Timer)
+    local Goal = {}
+    local guiInset = game:GetService("GuiService"):GetGuiInset()
+    Goal.Size = UDim2.new(0, 0, 0, 0)
+    Goal.Position = UDim2.new(0, Window.AbsolutePosition.X + (Window.AbsoluteSize.X / 2), 0, Window.AbsolutePosition.Y + (Window.AbsoluteSize.Y / 2))
+    Tween = TweenService:Create(Window, Info, Goal)
+    windowpos = Window.Position
+    closefunc()
+    Tween:Play()
+    task.wait(1)
+    ui_minimized = true
+    TweenService:Create(close, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {
+        ImageTransparency = 1
+    }):Play()
+    wait()
+    TweenService:Create(Main, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+        Size = UDim2.new(0, 0, 0, 0),
+        Position = UDim2.new(0, Main.AbsolutePosition.X + (Main.AbsoluteSize.X / 2), 0, Main.AbsolutePosition.Y + (Main.AbsoluteSize.Y / 2))
+    }):Play()
+    wait(1)
+    Window.Visible = false
+    WindowBox.Visible = false
+    return ui_minimized
 end
+
 
 DC_[#DC_+1] = Close.MouseButton1Click:Connect(CloseRS)
 
