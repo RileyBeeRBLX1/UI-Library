@@ -18,7 +18,7 @@ local Tab = Window:Tab("Tab")
 
 ## Creating a Section
 ```lua
-local Section = Window:Section("Section")
+local Section = Tab:Section("Section")
 ```
 
 ## Creating a Notification
