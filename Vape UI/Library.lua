@@ -446,14 +446,14 @@ function lib:Window(text, preset, closebind)
     SectionTitle.Name = "SectionTitle"
     SectionTitle.Parent = Section
     SectionTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    SectionTitle.BackgroundTransparency = 1
+    SectionTitle.BackgroundTransparency = 1.000
     SectionTitle.Position = UDim2.new(0.0358126722, 0, 0, 0)
     SectionTitle.Size = UDim2.new(0, 187, 0, 42)
     SectionTitle.Font = Enum.Font.Gotham
     SectionTitle.Text = text
     SectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
     SectionTitle.TextSize = 14.000
-    SectionTitle.TextXAlignment = Enum.TextXAlignment.Left
+    SectionTitle.TextXAlignment = Enum.TextXAlignment.Center
     Tab.CanvasSize = UDim2.new(0, 0, 0, TabLayout.AbsoluteContentSize.Y)
   end
         function tabcontent:Button(text, callback)
