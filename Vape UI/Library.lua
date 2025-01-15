@@ -424,7 +424,7 @@ function lib:Window(text, preset, closebind)
             end
         )
         local tabcontent = {}
-        function tabcontent:Section(text)
+    function tabcontent:Section(text)
     local Section = Instance.new("TextButton")
     local SectionCorner = Instance.new("UICorner")
     local SectionTitle = Instance.new("TextLabel")
@@ -454,9 +454,8 @@ function lib:Window(text, preset, closebind)
     SectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
     SectionTitle.TextSize = 14.000
     SectionTitle.TextXAlignment = Enum.TextXAlignment.Center
-
-        Tab.CanvasSize = UDim2.new(0, 0, 0, TabLayout.AbsoluteContentSize.Y)
-end
+    Tab.CanvasSize = UDim2.new(0, 0, 0, TabLayout.AbsoluteContentSize.Y)
+  end
         function tabcontent:Button(text, callback)
             local Button = Instance.new("TextButton")
             local ButtonCorner = Instance.new("UICorner")
@@ -816,27 +815,23 @@ end
                 pcall(callback, value)
             end
             SlideCircle.InputBegan:Connect(
-    function(input)
-        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-        end
+            function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+             dragging = true
+          end
     end
 )
-
 SlideCircle.InputEnded:Connect(
     function(input)
-        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
             dragging = false
         end
     end
 )
-
 game:GetService("UserInputService").InputChanged:Connect(
     function(input)
-        if dragging then
-            if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseMovement then
-                move(input)
-            end
+        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            move(input)
         end
     end
 )
