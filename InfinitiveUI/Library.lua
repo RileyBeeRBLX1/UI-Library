@@ -508,9 +508,14 @@ function CloseRS(time)
         Position = UDim2.new(0, Main.AbsolutePosition.X + (Main.AbsoluteSize.X / 2), 0, Main.AbsolutePosition.Y + (Main.AbsoluteSize.Y / 2))
     }):Play()
     wait(1)
-    ScreenGui_:Destroy()
+    if ScreenGui and ScreenGui.Parent then
+        ScreenGui:Destroy()
+    else
+        warn("InfinitiveUI Has Been Already Destroyed or it does not exist")
+    end
     return ui_minimized
 end
+
 
 
 DC_[#DC_+1] = Close.MouseButton1Click:Connect(CloseRS)
