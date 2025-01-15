@@ -453,7 +453,7 @@ function lib:Window(text, preset, closebind)
     SectionTitle.Text = text
     SectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
     SectionTitle.TextSize = 14.000
-    SectionTitle.TextXAlignment = Enum.TextXAlignment.Left
+    SectionTitle.TextXAlignment = Enum.TextXAlignment.Center
 
         Tab.CanvasSize = UDim2.new(0, 0, 0, TabLayout.AbsoluteContentSize.Y)
 end
