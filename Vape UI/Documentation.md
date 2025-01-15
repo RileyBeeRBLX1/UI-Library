@@ -13,12 +13,16 @@ local Window = Library:Window("PREVIEW",Color3.fromRGB(44, 120, 224), Enum.KeyCo
 
 ## Creating a Tab
 ```lua
-local Tab = Window:Tab("Tab 1")
+local Tab = Window:Tab({
+	Name = "Tab 1",
+})
 ```
 
 ## Creating a Section
 ```lua
-Tab:Section("Section")
+local Section = Tab:Section({
+	Name = "Section"
+})
 ```
 
 ## Creating a Notification
