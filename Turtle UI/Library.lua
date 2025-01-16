@@ -19,10 +19,11 @@ function Lerp(a, b, c)
     return a + ((b - a) * c)
 end
 
-local players = game:service("Players")
+local players = game:GetService("Players")
 local player = players.LocalPlayer
 local mouse = player:GetMouse()
-local run = game:service("RunService")
+local run = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
 local stepped = run.Stepped
 function Dragify(obj)
 	spawn(function()
@@ -151,12 +152,14 @@ function library:Window(name)
     Minimise.TextColor3 = Color3.fromRGB(0, 0, 0)
     Minimise.TextSize = 20.000
     Minimise.MouseButton1Up:connect(function()
-        Window.Visible = not Window.Visible
-	if Window.Visible then
-		Minimise.Text = "_"
-	else
-		Minimise.Text = "+"
-	end
+    Window.Visible = not Window.Visible
+    if Window.Visible then
+        Window:TweenSize(UDim2.new(1, 0, 7, 10), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.5, true)
+        Minimise.Text = "_"
+    else
+        Window:TweenSize(UDim2.new(1, 0, 0, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.5, true)
+        Minimise.Text = "+"
+    end
     end)
 
     Window.Name = "Window"
