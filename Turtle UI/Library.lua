@@ -278,14 +278,14 @@ function library:Window(name)
     end
 
     KeyLabel.MouseButton1Click:Connect(function()
-        KeyLabel.Text = "Enter Key..."
+        KeyLabel.Text = "Press a key..."
         game:GetService("UserInputService").InputBegan:Connect(onInputBegan)
     end)
 
     game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessed)
         if not gameProcessed and input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode.Name == currentKey then
             if callback then
-                callback(currentKey)
+                callback()
             end
         end
     end)
