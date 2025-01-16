@@ -19,10 +19,11 @@ function Lerp(a, b, c)
     return a + ((b - a) * c)
 end
 
-local players = game:service("Players")
+local players = game:GetService("Players")
 local player = players.LocalPlayer
 local mouse = player:GetMouse()
-local run = game:service("RunService")
+local run = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
 local stepped = run.Stepped
 function Dragify(obj)
 	spawn(function()
@@ -151,12 +152,14 @@ function library:Window(name)
     Minimise.TextColor3 = Color3.fromRGB(0, 0, 0)
     Minimise.TextSize = 20.000
     Minimise.MouseButton1Up:connect(function()
-        Window.Visible = not Window.Visible
-	if Window.Visible then
-		Minimise.Text = "_"
-	else
-		Minimise.Text = "+"
-	end
+    Window.Visible = not Window.Visible
+    if Window.Visible then
+        Window:TweenSize(UDim2.new(1, 0, 7, 10), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.5, true)
+        Minimise.Text = "_"
+    else
+        Window:TweenSize(UDim2.new(1, 0, 0, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.5, true)
+        Minimise.Text = "+"
+    end
     end)
 
     Window.Name = "Window"
@@ -229,68 +232,6 @@ function library:Window(name)
         end
         pastSliders[winCount] = false
     end
-    function functions:Keybind(title, defaultKey, callback)
-    sizes[winCount] = sizes[winCount] + 32
-    Window.Size = UDim2.new(0, 207, 0, sizes[winCount] + 10)
-
-    listOffset[winCount] = listOffset[winCount] + 32
-
-    local TitleLabel = Instance.new("TextLabel")
-    TitleLabel.Name = "TitleLabel"
-    TitleLabel.Parent = Window
-    TitleLabel.BackgroundColor3 = Color3.fromRGB(220, 221, 225)
-    TitleLabel.BackgroundTransparency = 1.000
-    TitleLabel.BorderColor3 = Color3.fromRGB(27, 42, 53)
-    TitleLabel.Position = UDim2.new(0, 0, 0, listOffset[winCount])
-    TitleLabel.Size = UDim2.new(0, 103, 0, 29)
-    TitleLabel.Font = Enum.Font.SourceSans
-    TitleLabel.Text = title or "Keybind"
-    TitleLabel.TextSize = 16.000
-    TitleLabel.TextColor3 = Color3.fromRGB(245, 246, 250)
-    TitleLabel.ZIndex = 2 + zindex
-
-    local KeyLabel = Instance.new("TextLabel")
-    KeyLabel.Name = "KeyLabel"
-    KeyLabel.Parent = Window
-    KeyLabel.BackgroundColor3 = Color3.fromRGB(220, 221, 225)
-    KeyLabel.BackgroundTransparency = 1.000
-    KeyLabel.BorderColor3 = Color3.fromRGB(27, 42, 53)
-    KeyLabel.Position = UDim2.new(0, 104, 0, listOffset[winCount])
-    KeyLabel.Size = UDim2.new(0, 102, 0, 29)
-    KeyLabel.Font = Enum.Font.SourceSans
-    KeyLabel.Text = defaultKey and defaultKey.Name or "None"
-    KeyLabel.TextSize = 16.000
-    KeyLabel.TextColor3 = Color3.fromRGB(245, 246, 250)
-    KeyLabel.ZIndex = 2 + zindex
-
-    local currentKey = defaultKey
-
-    local function onInputBegan(input)
-        if input.UserInputType == Enum.UserInputType.Keyboard then
-            currentKey = input.KeyCode
-            KeyLabel.Text = currentKey.Name
-            if callback then
-                callback(currentKey)
-            end
-            game:GetService("UserInputService").InputBegan:Disconnect(onInputBegan)
-        end
-    end
-
-    KeyLabel.MouseButton1Click:Connect(function()
-        KeyLabel.Text = "Press a key..."
-        game:GetService("UserInputService").InputBegan:Connect(onInputBegan)
-    end)
-
-    game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessed)
-        if not gameProcessed and input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == currentKey then
-            if callback then
-                callback()
-            end
-        end
-    end)
-
-    pastSliders[winCount] = false
-end
     function functions:Toggle(text, on, callback)
         local callback = callback or function() end
 
