@@ -154,10 +154,8 @@ function library:Window(name)
     Minimise.MouseButton1Up:connect(function()
         Window.Visible = not Window.Visible
 	if Window.Visible then
-	Window:TweenSize(UDim2.new(1, 0, 7, 10), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.5, true)
 		Minimise.Text = "_"
 	else
-	Window:TweenSize(UDim2.new(1, 0, 0, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.5, true)
 		Minimise.Text = "+"
 	end
     end)
