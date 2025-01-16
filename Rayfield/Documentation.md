@@ -225,7 +225,12 @@ Input:Set("New Text") -- The new input text value
 
 ## Update Dropdown
 ```lua
-Dropdown:Set({"Option 2"}) -- The new list of options
+Dropdown:Set({"Option 2"}) -- The new selected options
+```
+
+## Refresh Dropdown
+```lua
+Dropdown:Refresh({"Option 1", "Option 2", "Option 3"}) -- The new list of options available.
 ```
 
 ## Update Colorpicker
