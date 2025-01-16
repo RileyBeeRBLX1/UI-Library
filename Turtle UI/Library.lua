@@ -229,8 +229,7 @@ function library:Window(name)
         end
         pastSliders[winCount] = false
     end
-    function functions:Keybind(title, callback, defaultKey)
-
+    function functions:Keybind(title, defaultKey, callback)
     sizes[winCount] = sizes[winCount] + 32
     Window.Size = UDim2.new(0, 207, 0, sizes[winCount] + 10)
 
@@ -259,17 +258,17 @@ function library:Window(name)
     KeyLabel.Position = UDim2.new(0, 104, 0, listOffset[winCount])
     KeyLabel.Size = UDim2.new(0, 102, 0, 29)
     KeyLabel.Font = Enum.Font.SourceSans
-    KeyLabel.Text = defaultKey or "None"
+    KeyLabel.Text = defaultKey and defaultKey.Name or "None"
     KeyLabel.TextSize = 16.000
     KeyLabel.TextColor3 = Color3.fromRGB(245, 246, 250)
     KeyLabel.ZIndex = 2 + zindex
 
-    local currentKey = defaultKey or "None"
+    local currentKey = defaultKey
 
     local function onInputBegan(input)
         if input.UserInputType == Enum.UserInputType.Keyboard then
-            currentKey = input.KeyCode.Name
-            KeyLabel.Text = currentKey
+            currentKey = input.KeyCode
+            KeyLabel.Text = currentKey.Name
             if callback then
                 callback(currentKey)
             end
@@ -283,7 +282,7 @@ function library:Window(name)
     end)
 
     game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessed)
-        if not gameProcessed and input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode.Name == currentKey then
+        if not gameProcessed and input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == currentKey then
             if callback then
                 callback()
             end
