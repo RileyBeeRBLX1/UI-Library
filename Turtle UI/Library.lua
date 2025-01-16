@@ -23,7 +23,6 @@ local players = game:service('Players');
 local player = players.LocalPlayer;
 local mouse = player:GetMouse();
 local run = game:service('RunService');
-local Tween = game:service('TweenService');
 local stepped = run.Stepped;
 function Dragify(obj)
 	spawn(function()
@@ -151,23 +150,14 @@ function library:Window(name)
     Minimise.Text = "_"
     Minimise.TextColor3 = Color3.fromRGB(0, 0, 0)
     Minimise.TextSize = 20.000
-    Minimise.MouseButton1Up:Connect(function()
-    if Window.Visible then
-        local tween = TweenService:Create(Window, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = minimizeSize})
-        tween:Play()
-        tween.Completed:Connect(function()
-            Window.Visible = false
-            Minimise.Text = "+"
-        end)
-    else
-        Window.Visible = true
-        local tween = TweenService:Create(Window, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = originalSize})
-        tween:Play()
-        tween.Completed:Connect(function()
-            Minimise.Text = "_"
-        end)
-    end
-end)
+    Minimise.MouseButton1Up:connect(function()
+        Window.Visible = not Window.Visible
+	if Window.Visible then
+		Minimise.Text = "_"
+	else
+		Minimise.Text = "+"
+	end
+    end)
 
     Window.Name = "Window"
     Window.Parent = Header
