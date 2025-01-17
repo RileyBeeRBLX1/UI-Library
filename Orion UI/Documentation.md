@@ -156,7 +156,7 @@ Tab:AddBind({
 	Callback = function()
 		print("press")
 	end    
-}
+})
 ```
 
 ### Chaning the value of a bind
