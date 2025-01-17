@@ -581,9 +581,6 @@ do
 			})
 		})
 		
-		-- dragging
-		utility:DraggingEnabled(notification)
-		
 		-- position and size
 		title = title or "Notification"
 		text = text or ""
@@ -1311,223 +1308,242 @@ do
 		
 		utility:DraggingEnabled(tab)
 		table.insert(self.modules, colorpicker)
-		--self:Resize()
-		
-		local allowed = {
-			[""] = true
-		}
-		
-		local canvas = tab.Container.Canvas
-		local color = tab.Container.Color
-		
-		local canvasSize, canvasPosition = canvas.AbsoluteSize, canvas.AbsolutePosition
-		local colorSize, colorPosition = color.AbsoluteSize, color.AbsolutePosition
-		
-		local draggingColor, draggingCanvas
-		
-		local color3 = default or Color3.fromRGB(255, 255, 255)
-		local hue, sat, brightness = 0, 0, 1
-		local rgb = {
-			r = 255,
-			g = 255,
-			b = 255
-		}
-		
-		self.colorpickers[colorpicker] = {
-			tab = tab,
-			callback = function(prop, value)
-				rgb[prop] = value
-				hue, sat, brightness = Color3.toHSV(Color3.fromRGB(rgb.r, rgb.g, rgb.b))
-			end
-		}
-		
-		local callback = function(value)
-			if callback then
-				callback(value, function(...)
-					self:updateColorPicker(colorpicker, ...)
-				end)
-			end
-		end
-		
-		utility:DraggingEnded(function()
-			draggingColor, draggingCanvas = false, false
-		end)
-		
-		if default then
-			self:updateColorPicker(colorpicker, nil, default)
-			
-			hue, sat, brightness = Color3.toHSV(default)
-			default = Color3.fromHSV(hue, sat, brightness)
-			
-			for i, prop in pairs({"r", "g", "b"}) do
-				rgb[prop] = default[prop:upper()] * 255
-			end
-		end
-		
-		for i, container in pairs(tab.Container.Inputs:GetChildren()) do -- i know what you are about to say, so shut up
-			if container:IsA("ImageLabel") then
-				local textbox = container.Textbox
-				local focused
-				
-				textbox.Focused:Connect(function()
-					focused = true
-				end)
-				
-				textbox.FocusLost:Connect(function()
-					focused = false
-					
-					if not tonumber(textbox.Text) then
-						textbox.Text = math.floor(rgb[container.Name:lower()])
-					end
-				end)
-				
-				textbox:GetPropertyChangedSignal("Text"):Connect(function()
-					local text = textbox.Text
-					
-					if not allowed[text] and not tonumber(text) then
-						textbox.Text = text:sub(1, #text - 1)
-					elseif focused and not allowed[text] then
-						rgb[container.Name:lower()] = math.clamp(tonumber(textbox.Text), 0, 255)
-						
-						local color3 = Color3.fromRGB(rgb.r, rgb.g, rgb.b)
-						hue, sat, brightness = Color3.toHSV(color3)
-						
-						self:updateColorPicker(colorpicker, nil, color3)
-						callback(color3)
-					end
-				end)
-			end
-		end
-		
-		canvas.MouseButton1Down:Connect(function()
-			draggingCanvas = true
-			
-			while draggingCanvas do
-				
-				local x, y = mouse.X, mouse.Y
-				
-				sat = math.clamp((x - canvasPosition.X) / canvasSize.X, 0, 1)
-				brightness = 1 - math.clamp((y - canvasPosition.Y) / canvasSize.Y, 0, 1)
-				
-				color3 = Color3.fromHSV(hue, sat, brightness)
-				
-				for i, prop in pairs({"r", "g", "b"}) do
-					rgb[prop] = color3[prop:upper()] * 255
-				end
-				
-				self:updateColorPicker(colorpicker, nil, {hue, sat, brightness}) -- roblox is literally retarded
-				utility:Tween(canvas.Cursor, {Position = UDim2.new(sat, 0, 1 - brightness, 0)}, 0.1) -- overwrite
-				
-				callback(color3)
-				utility:Wait()
-			end
-		end)
-		
-		color.MouseButton1Down:Connect(function()
-			draggingColor = true
-			
-			while draggingColor do
-			
-				hue = 1 - math.clamp(1 - ((mouse.X - colorPosition.X) / colorSize.X), 0, 1)
-				color3 = Color3.fromHSV(hue, sat, brightness)
-				
-				for i, prop in pairs({"r", "g", "b"}) do
-					rgb[prop] = color3[prop:upper()] * 255
-				end
-				
-				local x = hue -- hue is updated
-				self:updateColorPicker(colorpicker, nil, {hue, sat, brightness}) -- roblox is literally retarded
-				utility:Tween(tab.Container.Color.Select, {Position = UDim2.new(x, 0, 0, 0)}, 0.1) -- overwrite
-				
-				callback(color3)
-				utility:Wait()
-			end
-		end)
-		
-		-- click events
-		local button = colorpicker.Button
-		local toggle, debounce, animate
-		
-		lastColor = Color3.fromHSV(hue, sat, brightness)
-		animate = function(visible, overwrite)
-			
-			if overwrite then
-			
-				if not toggle then
-					return
-				end
-				
-				if debounce then
-					while debounce do
-						utility:Wait()
-					end
-				end
-			elseif not overwrite then
-				if debounce then 
-					return 
-				end
-				
-				if button.ImageTransparency == 0 then
-					utility:Pop(button, 10)
-				end
-			end
-			
-			toggle = visible
-			debounce = true
-			
-			if visible then
-			
-				if self.page.library.activePicker and self.page.library.activePicker ~= animate then
-					self.page.library.activePicker(nil, true)
-				end
-				
-				self.page.library.activePicker = animate
-				lastColor = Color3.fromHSV(hue, sat, brightness)
-				
-				local x1, x2 = button.AbsoluteSize.X / 2, 162--tab.AbsoluteSize.X
-				local px, py = button.AbsolutePosition.X, button.AbsolutePosition.Y
-				
-				tab.ClipsDescendants = true
-				tab.Visible = true
-				tab.Size = UDim2.new(0, 0, 0, 0)
-				
-				tab.Position = UDim2.new(0, x1 + x2 + px, 0, py)
-				utility:Tween(tab, {Size = UDim2.new(0, 162, 0, 169)}, 0.2)
-				
-				-- update size and position
-				wait(0.2)
-				tab.ClipsDescendants = false
-				
-				canvasSize, canvasPosition = canvas.AbsoluteSize, canvas.AbsolutePosition
-				colorSize, colorPosition = color.AbsoluteSize, color.AbsolutePosition
-			else
-				utility:Tween(tab, {Size = UDim2.new(0, 0, 0, 0)}, 0.2)
-				tab.ClipsDescendants = true
-				
-				wait(0.2)
-				tab.Visible = false
-			end
-			
-			debounce = false
-		end
-		
-		local toggleTab = function()
-			animate(not toggle)
-		end
-		
-		button.MouseButton1Click:Connect(toggleTab)
-		colorpicker.MouseButton1Click:Connect(toggleTab)
-		
-		tab.Container.Button.MouseButton1Click:Connect(function()
-			animate()
-		end)
-		
-		tab.Close.MouseButton1Click:Connect(function()
-			self:updateColorPicker(colorpicker, nil, lastColor)
-			animate()
-		end)
-		
-		return colorpicker
+-- self:Resize()
+
+local allowed = {
+    [""] = true
+}
+
+local canvas = tab.Container.Canvas
+local color = tab.Container.Color
+
+local canvasSize, canvasPosition = canvas.AbsoluteSize, canvas.AbsolutePosition
+local colorSize, colorPosition = color.AbsoluteSize, color.AbsolutePosition
+
+local draggingColor, draggingCanvas
+
+local color3 = default or Color3.fromRGB(255, 255, 255)
+local hue, sat, brightness = 0, 0, 1
+local rgb = {
+    r = 255,
+    g = 255,
+    b = 255
+}
+
+self.colorpickers[colorpicker] = {
+    tab = tab,
+    callback = function(prop, value)
+        rgb[prop] = value
+        hue, sat, brightness = Color3.toHSV(Color3.fromRGB(rgb.r, rgb.g, rgb.b))
+    end
+}
+
+local callback = function(value)
+    if callback then
+        callback(value, function(...)
+            self:updateColorPicker(colorpicker, ...)
+        end)
+    end
+end
+
+utility:DraggingEnded(function()
+    draggingColor, draggingCanvas = false, false
+end)
+
+if default then
+    self:updateColorPicker(colorpicker, nil, default)
+    
+    hue, sat, brightness = Color3.toHSV(default)
+    default = Color3.fromHSV(hue, sat, brightness)
+    
+    for i, prop in pairs({"r", "g", "b"}) do
+        rgb[prop] = default[prop:upper()] * 255
+    end
+end
+
+for i, container in pairs(tab.Container.Inputs:GetChildren()) do
+    if container:IsA("ImageLabel") then
+        local textbox = container.Textbox
+        local focused
+        
+        textbox.Focused:Connect(function()
+            focused = true
+        end)
+        
+        textbox.FocusLost:Connect(function()
+            focused = false
+            
+            if not tonumber(textbox.Text) then
+                textbox.Text = math.floor(rgb[container.Name:lower()])
+            end
+        end)
+        
+        textbox:GetPropertyChangedSignal("Text"):Connect(function()
+            local text = textbox.Text
+            
+            if not allowed[text] and not tonumber(text) then
+                textbox.Text = text:sub(1, #text - 1)
+            elseif focused and not allowed[text] then
+                rgb[container.Name:lower()] = math.clamp(tonumber(textbox.Text), 0, 255)
+                
+                local color3 = Color3.fromRGB(rgb.r, rgb.g, rgb.b)
+                hue, sat, brightness = Color3.toHSV(color3)
+                
+                self:updateColorPicker(colorpicker, nil, color3)
+                callback(color3)
+            end
+        end)
+    end
+end
+
+-- Handle mouse/touch dragging on the canvas
+local function startDraggingCanvas(input)
+    draggingCanvas = true
+    while draggingCanvas do
+        local x, y = input.Position.X, input.Position.Y
+        
+        sat = math.clamp((x - canvasPosition.X) / canvasSize.X, 0, 1)
+        brightness = 1 - math.clamp((y - canvasPosition.Y) / canvasSize.Y, 0, 1)
+        
+        color3 = Color3.fromHSV(hue, sat, brightness)
+        
+        for i, prop in pairs({"r", "g", "b"}) do
+            rgb[prop] = color3[prop:upper()] * 255
+        end
+        
+        self:updateColorPicker(colorpicker, nil, {hue, sat, brightness})
+        utility:Tween(canvas.Cursor, {Position = UDim2.new(sat, 0, 1 - brightness, 0)}, 0.1)
+        
+        callback(color3)
+        utility:Wait()
+    end
+end
+
+-- Handle mouse/touch dragging on the color hue bar
+local function startDraggingColor(input)
+    draggingColor = true
+    while draggingColor do
+        hue = 1 - math.clamp(1 - ((input.Position.X - colorPosition.X) / colorSize.X), 0, 1)
+        color3 = Color3.fromHSV(hue, sat, brightness)
+        
+        for i, prop in pairs({"r", "g", "b"}) do
+            rgb[prop] = color3[prop:upper()] * 255
+        end
+        
+        local x = hue
+        self:updateColorPicker(colorpicker, nil, {hue, sat, brightness})
+        utility:Tween(tab.Container.Color.Select, {Position = UDim2.new(x, 0, 0, 0)}, 0.1)
+        
+        callback(color3)
+        utility:Wait()
+    end
+end
+
+-- Mouse and touch events
+canvas.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        startDraggingCanvas(input)
+    end
+end)
+
+canvas.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        draggingCanvas = false
+    end
+end)
+
+color.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        startDraggingColor(input)
+    end
+end)
+
+color.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        draggingColor = false
+    end
+end)
+
+-- Click events
+local button = colorpicker.Button
+local toggle, debounce, animate
+
+lastColor = Color3.fromHSV(hue, sat, brightness)
+animate = function(visible, overwrite)
+    if overwrite then
+        if not toggle then
+            return
+        end
+        if debounce then
+            while debounce do
+                utility:Wait()
+            end
+        end
+    elseif not overwrite then
+        if debounce then
+            return
+        end
+        
+        if button.ImageTransparency == 0 then
+            utility:Pop(button, 10)
+        end
+    end
+    
+    toggle = visible
+    debounce = true
+    
+    if visible then
+        if self.page.library.activePicker and self.page.library.activePicker ~= animate then
+            self.page.library.activePicker(nil, true)
+        end
+        
+        self.page.library.activePicker = animate
+        lastColor = Color3.fromHSV(hue, sat, brightness)
+        
+        local x1, x2 = button.AbsoluteSize.X / 2, 162
+        local px, py = button.AbsolutePosition.X, button.AbsolutePosition.Y
+        
+        tab.ClipsDescendants = true
+        tab.Visible = true
+        tab.Size = UDim2.new(0, 0, 0, 0)
+        
+        tab.Position = UDim2.new(0, x1 + x2 + px, 0, py)
+        utility:Tween(tab, {Size = UDim2.new(0, 162, 0, 169)}, 0.2)
+        
+        -- update size and position
+        wait(0.2)
+        tab.ClipsDescendants = false
+        
+        canvasSize, canvasPosition = canvas.AbsoluteSize, canvas.AbsolutePosition
+        colorSize, colorPosition = color.AbsoluteSize, color.AbsolutePosition
+    else
+        utility:Tween(tab, {Size = UDim2.new(0, 0, 0, 0)}, 0.2)
+        tab.ClipsDescendants = true
+        
+        wait(0.2)
+        tab.Visible = false
+    end
+    
+    debounce = false
+end
+
+local toggleTab = function()
+    animate(not toggle)
+end
+
+button.MouseButton1Click:Connect(toggleTab)
+colorpicker.MouseButton1Click:Connect(toggleTab)
+
+tab.Container.Button.MouseButton1Click:Connect(function()
+    animate()
+end)
+
+tab.Close.MouseButton1Click:Connect(function()
+    self:updateColorPicker(colorpicker, nil, lastColor)
+    animate()
+end)
+
+return colorpicker
 	end
 	
 	function section:addSlider(title, default, min, max, callback)
@@ -1617,68 +1633,84 @@ do
 		})
 		
 		table.insert(self.modules, slider)
-		--self:Resize()
-		
-		local allowed = {
-			[""] = true,
-			["-"] = true
-		}
-		
-		local textbox = slider.TextBox
-		local circle = slider.Slider.Bar.Fill.Circle
-		
-		local value = default or min
-		local dragging, last
-		
-		local callback = function(value)
-			if callback then
-				callback(value, function(...)
-					self:updateSlider(slider, ...)
-				end)
-			end
-		end
-		
-		self:updateSlider(slider, nil, value, min, max)
-		
-		utility:DraggingEnded(function()
-			dragging = false
-		end)
+-- self:Resize()
 
-		slider.MouseButton1Down:Connect(function(input)
-			dragging = true
-			
-			while dragging do
-				utility:Tween(circle, {ImageTransparency = 0}, 0.1)
-				
-				value = self:updateSlider(slider, nil, nil, min, max, value)
-				callback(value)
-				
-				utility:Wait()
-			end
-			
-			wait(0.5)
-			utility:Tween(circle, {ImageTransparency = 1}, 0.2)
-		end)
-		
-		textbox.FocusLost:Connect(function()
-			if not tonumber(textbox.Text) then
-				value = self:updateSlider(slider, nil, default or min, min, max)
-				callback(value)
-			end
-		end)
-		
-		textbox:GetPropertyChangedSignal("Text"):Connect(function()
-			local text = textbox.Text
-			
-			if not allowed[text] and not tonumber(text) then
-				textbox.Text = text:sub(1, #text - 1)
-			elseif not allowed[text] then	
-				value = self:updateSlider(slider, nil, tonumber(text) or value, min, max)
-				callback(value)
-			end
-		end)
-		
-		return slider
+local allowed = {
+    [""] = true,
+    ["-"] = true,
+}
+
+local textbox = slider.TextBox
+local circle = slider.Slider.Bar.Fill.Circle
+
+local value = default or min
+local dragging = false
+local last
+
+local callback = function(value)
+    if callback then
+        callback(value, function(...)
+            self:updateSlider(slider, ...)
+        end)
+    end
+end
+
+self:updateSlider(slider, nil, value, min, max)
+
+utility:DraggingEnded(function()
+    dragging = false
+end)
+
+local function startDragging(input)
+    dragging = true
+    while dragging do
+        utility:Tween(circle, {ImageTransparency = 0}, 0.1)
+
+        value = self:updateSlider(slider, nil, nil, min, max, value)
+        callback(value)
+
+        utility:Wait()
+    end
+
+    wait(0.5)
+    utility:Tween(circle, {ImageTransparency = 1}, 0.2)
+end
+
+local function stopDragging()
+    dragging = false
+end
+
+slider.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        startDragging(input)
+    end
+end)
+
+slider.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        stopDragging()
+    end
+end)
+
+textbox.FocusLost:Connect(function()
+    if not tonumber(textbox.Text) then
+        value = self:updateSlider(slider, nil, default or min, min, max)
+        callback(value)
+    end
+end)
+
+textbox:GetPropertyChangedSignal("Text"):Connect(function()
+    local text = textbox.Text
+
+    if not allowed[text] and not tonumber(text) then
+        textbox.Text = text:sub(1, #text - 1)
+    elseif not allowed[text] then
+        value = self:updateSlider(slider, nil, tonumber(text) or value, min, max)
+        callback(value)
+    end
+end)
+
+return slider
 	end
 	
 	function section:addDropdown(title, list, callback)
