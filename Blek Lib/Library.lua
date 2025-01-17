@@ -344,7 +344,7 @@ function Library:Create(table)
             end)
     
             game:GetService('UserInputService').InputEnded:connect(function(key)
-                if key.UserInputType == Enum.UserInputType.MouseButton1 then
+                if key.UserInputType == Enum.UserInputType.MouseButton1 or key.UserInputType == Enum.UserInputType.Touch then
                     down = false
                     game:GetService('TweenService'):Create(slider, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromRGB(38,38,38)}):Play()
                 end
