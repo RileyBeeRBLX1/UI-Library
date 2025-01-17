@@ -1,18 +1,22 @@
--- venyx ui lib reuploaded by me
--- init
+--[[
+    VENYX UI LIB
+    NOW HAVE MOBILE SUPPORT
+--]]
+
+-- INIT
 local player = game.Players.LocalPlayer
 local mouse = player:GetMouse()
 
--- services
+-- SERVICES
 local input = game:GetService("UserInputService")
 local run = game:GetService("RunService")
 local tween = game:GetService("TweenService")
 local tweeninfo = TweenInfo.new
 
--- additional
+-- ADDITIONAL
 local utility = {}
 
--- themes
+-- THEMES
 local objects = {}
 local themes = {
 	Background = Color3.fromRGB(24, 24, 24), 
@@ -1306,7 +1310,6 @@ do
 			})
 		})
 		
-		utility:DraggingEnabled(tab)
 		table.insert(self.modules, colorpicker)
 -- self:Resize()
 
