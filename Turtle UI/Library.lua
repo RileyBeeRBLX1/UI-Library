@@ -151,13 +151,20 @@ function library:Window(name)
     Minimise.TextColor3 = Color3.fromRGB(0, 0, 0)
     Minimise.TextSize = 20.000
     Minimise.MouseButton1Up:connect(function()
-        Window.Visible = not Window.Visible
-	if Window.Visible then
-		Minimise.Text = "_"
-	else
-		Minimise.Text = "+"
-	end
-    end)
+    Window.Visible = not Window.Visible
+    local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+    if Window.Visible then
+        local goal = {Position = UDim2.new(0, 0, -0.5, 0)}
+        local tween = TweenService:Create(Window, tweenInfo, goal)
+        tween:Play()      
+        Minimise.Text = "_"
+    else
+        local goal = {Position = UDim2.new(0, 0, 0, 0)}
+        local tween = TweenService:Create(Window, tweenInfo, goal)
+        tween:Play()
+        Minimise.Text = "+"
+    end
+end)
 
     Window.Name = "Window"
     Window.Parent = Header
