@@ -88,7 +88,7 @@ local function createOptionHolder(holderTitle, parent, parentTable, subHolder)
 		BorderSizePixel = 0,
 		Text = holderTitle,
 		TextSize = subHolder and 16 or 17,
-		Font = Enum.Font.LuckiestGuy,
+		Font = Enum.Font.Ubuntu,
 		TextColor3 = Color3.fromRGB(255, 255, 255),
 		Parent = parentTable.main
 	})
@@ -200,7 +200,7 @@ local function createLabel(option, parent)
 		BackgroundTransparency = 1,
 		Text = " " .. option.text,
 		TextSize = 17,
-		Font = Enum.Font.GothamBlack,
+		Font = Enum.Font.Ubuntu,
 		TextColor3 = Color3.fromRGB(255, 255, 255),
 		TextXAlignment = Enum.TextXAlignment.Left,
 		Parent = parent.content
@@ -220,7 +220,7 @@ function createToggle(option, parent)
 		BackgroundTransparency = 1,
 		Text = " " .. option.text,
 		TextSize = 17,
-		Font = Enum.Font.GothamBlack,
+		Font = Enum.Font.Ubuntu,
 		TextColor3 = Color3.fromRGB(255, 255, 255),
 		TextXAlignment = Enum.TextXAlignment.Left,
 		Parent = parent.content
@@ -328,7 +328,7 @@ function createButton(option, parent)
 		BackgroundTransparency = 1,
 		Text = " " .. option.text,
 		TextSize = 17,
-		Font = Enum.Font.GothamBlack,
+		Font = Enum.Font.Ubuntu,
 		TextColor3 = Color3.fromRGB(255, 255, 255),
 		Parent = parent.content
 	})
@@ -403,7 +403,7 @@ local function createBind(option, parent)
 		BackgroundTransparency = 1,
 		Text = " " .. option.text,
 		TextSize = 17,
-		Font = Enum.Font.GothamBlack,
+		Font = Enum.Font.Ubuntu,
 		TextColor3 = Color3.fromRGB(255, 255, 255),
 		TextXAlignment = Enum.TextXAlignment.Left,
 		Parent = parent.content
@@ -536,7 +536,7 @@ local function createSlider(option, parent)
 		BackgroundTransparency = 1,
 		Text = " " .. option.text,
 		TextSize = 17,
-		Font = Enum.Font.GothamBlack,
+		Font = Enum.Font.Ubuntu,
 		TextColor3 = Color3.fromRGB(255, 255, 255),
 		TextXAlignment = Enum.TextXAlignment.Left,
 		Parent = main
@@ -701,7 +701,7 @@ local function createList(option, parent, holder)
 		BackgroundTransparency = 1,
 		Text = option.text,
 		TextSize = 14,
-		Font = Enum.Font.GothamBlack,
+		Font = Enum.Font.Ubuntu,
 		TextColor3 = Color3.fromRGB(140, 140, 140),
 		TextXAlignment = Enum.TextXAlignment.Left,
 		Parent = main
@@ -713,7 +713,7 @@ local function createList(option, parent, holder)
 		BackgroundTransparency = 1,
 		Text = option.value,
 		TextSize = 18,
-		Font = Enum.Font.GothamBlack,
+		Font = Enum.Font.Ubuntu,
 		TextColor3 = Color3.fromRGB(255, 255, 255),
 		TextXAlignment = Enum.TextXAlignment.Left,
 		Parent = main
@@ -834,7 +834,7 @@ local function createList(option, parent, holder)
 			Text = "    " .. value,
 			TextSize = 14,
 			TextTransparency = self.open and 0 or 1,
-			Font = Enum.Font.GothamBlack,
+			Font = Enum.Font.Ubuntu,
 			TextColor3 = Color3.fromRGB(255, 255, 255),
 			TextXAlignment = Enum.TextXAlignment.Left,
 			Parent = content
@@ -966,7 +966,7 @@ local function createBox(option, parent)
 		BackgroundTransparency = 1,
 		Text = option.text,
 		TextSize = 14,
-		Font = Enum.Font.GothamBlack,
+		Font = Enum.Font.Ubuntu,
 		TextColor3 = Color3.fromRGB(100, 100, 100),
 		TextXAlignment = Enum.TextXAlignment.Left,
 		Parent = main
@@ -978,7 +978,7 @@ local function createBox(option, parent)
 		BackgroundTransparency = 1,
 		Text = option.value,
 		TextSize = 18,
-		Font = Enum.Font.GothamBlack,
+		Font = Enum.Font.Ubuntu,
 		TextColor3 = Color3.fromRGB(255, 255, 255),
 		TextXAlignment = Enum.TextXAlignment.Left,
 		TextWrapped = true,
@@ -1277,7 +1277,7 @@ local function createColorPickerWindow(option)
 		BackgroundTransparency = 1,
 		Text = "Undo",
 		TextTransparency = 1,
-		Font = Enum.Font.Code,
+		Font = Enum.Font.Ubuntu,
 		TextSize = 15,
 		TextColor3 = Color3.fromRGB(255, 255, 255),
 		Parent = option.undoColor
@@ -1297,16 +1297,18 @@ local function createColorPickerWindow(option)
 				table.remove(previousColors, #previousColors)
 			end
 		end
-		if Input.UserInputType == Enum.UserInputType.MouseMovement and not dragging then
-			tweenService:Create(option.undoColor, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(10, 10, 10)}):Play()
-		end
-	end)
-	
-	option.undoColor.InputEnded:connect(function(Input)
-		if Input.UserInputType == Enum.UserInputType.MouseMovement and not dragging then
-			tweenService:Create(option.undoColor, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(20, 20, 20)}):Play()
-		end
-	end)
+option.undoColor.InputBegan:connect(function(Input)
+    if (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) and not dragging then
+        tweenService:Create(option.undoColor, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(10, 10, 10)}):Play()
+    end
+end)
+
+option.undoColor.InputEnded:connect(function(Input)
+    if (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) and not dragging then
+        tweenService:Create(option.undoColor, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(20, 20, 20)}):Play()
+    end
+end)
+
 	
 	option.setColor = library:Create("ImageLabel", {
 		ZIndex = 3,
@@ -1328,7 +1330,7 @@ local function createColorPickerWindow(option)
 		BackgroundTransparency = 1,
 		Text = "Set",
 		TextTransparency = 1,
-		Font = Enum.Font.Code,
+		Font = Enum.Font.Ubuntu,
 		TextSize = 15,
 		TextColor3 = Color3.fromRGB(255, 255, 255),
 		Parent = option.setColor
@@ -1373,7 +1375,7 @@ local function createColorPickerWindow(option)
 		BackgroundTransparency = 1,
 		Text = "Rainbow",
 		TextTransparency = 1,
-		Font = Enum.Font.Code,
+		Font = Enum.Font.Ubuntu,
 		TextSize = 15,
 		TextColor3 = Color3.fromRGB(255, 255, 255),
 		Parent = option.rainbow
@@ -1426,7 +1428,7 @@ local function createColor(option, parent, holder)
 		BackgroundTransparency = 1,
 		Text = " " .. option.text,
 		TextSize = 17,
-		Font = Enum.Font.GothamBlack,
+		Font = Enum.Font.Ubuntu,
 		TextColor3 = Color3.fromRGB(255, 255, 255),
 		TextXAlignment = Enum.TextXAlignment.Left,
 		Parent = parent.content
