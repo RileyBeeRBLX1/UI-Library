@@ -1399,7 +1399,6 @@ for i, container in pairs(tab.Container.Inputs:GetChildren()) do
     end
 end
 
--- Handle mouse/touch dragging on the canvas
 local function startDraggingCanvas(input)
     draggingCanvas = true
     while draggingCanvas do
@@ -1422,7 +1421,6 @@ local function startDraggingCanvas(input)
     end
 end
 
--- Handle mouse/touch dragging on the color hue bar
 local function startDraggingColor(input)
     draggingColor = true
     while draggingColor do
@@ -1442,7 +1440,6 @@ local function startDraggingColor(input)
     end
 end
 
--- Mouse and touch events
 canvas.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
         startDraggingCanvas(input)
@@ -1634,9 +1631,8 @@ return colorpicker
 				})
 			})
 		})
-		
-		table.insert(self.modules, slider)
--- self:Resize()
+table.insert(self.modules, slider)		
+self:Resize()
 
 local allowed = {
     [""] = true,
@@ -1648,9 +1644,8 @@ local circle = slider.Slider.Bar.Fill.Circle
 
 local value = default or min
 local dragging = false
-local last
 
-local callback = function(value)
+local function updateCallback(value)
     if callback then
         callback(value, function(...)
             self:updateSlider(slider, ...)
@@ -1666,16 +1661,14 @@ end)
 
 local function startDragging(input)
     dragging = true
+    utility:Tween(circle, {ImageTransparency = 0}, 0.1)
+
     while dragging do
-        utility:Tween(circle, {ImageTransparency = 0}, 0.1)
-
         value = self:updateSlider(slider, nil, nil, min, max, value)
-        callback(value)
-
+        updateCallback(value)
         utility:Wait()
     end
 
-    wait(0.5)
     utility:Tween(circle, {ImageTransparency = 1}, 0.2)
 end
 
@@ -1698,7 +1691,7 @@ end)
 textbox.FocusLost:Connect(function()
     if not tonumber(textbox.Text) then
         value = self:updateSlider(slider, nil, default or min, min, max)
-        callback(value)
+        updateCallback(value)
     end
 end)
 
@@ -1706,10 +1699,10 @@ textbox:GetPropertyChangedSignal("Text"):Connect(function()
     local text = textbox.Text
 
     if not allowed[text] and not tonumber(text) then
-        textbox.Text = text:sub(1, #text - 1)
+        textbox.Text = text:sub(1, #text - 1) -- Remove invalid characters
     elseif not allowed[text] then
         value = self:updateSlider(slider, nil, tonumber(text) or value, min, max)
-        callback(value)
+        updateCallback(value)
     end
 end)
 
