@@ -1,10 +1,10 @@
 local library = {flags = {}, windows = {}, open = true}
 
 --Services
-local runService = game:GetService("RunService")
-local tweenService = game:GetService("TweenService")
-local textService = game:GetService("TextService")
-local inputService = game:GetService("UserInputService")
+local runService = game:GetService"RunService"
+local tweenService = game:GetService"TweenService"
+local textService = game:GetService"TextService"
+local inputService = game:GetService"UserInputService"
 local ui = Enum.UserInputType.MouseButton1
 --Locals
 local dragging, dragInput, dragStart, startPos, dragObject
@@ -1297,18 +1297,16 @@ local function createColorPickerWindow(option)
 				table.remove(previousColors, #previousColors)
 			end
 		end
-option.undoColor.InputBegan:connect(function(Input)
-    if (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) and not dragging then
-        tweenService:Create(option.undoColor, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(10, 10, 10)}):Play()
-    end
-end)
-
-option.undoColor.InputEnded:connect(function(Input)
-    if (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) and not dragging then
-        tweenService:Create(option.undoColor, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(20, 20, 20)}):Play()
-    end
-end)
-
+		if Input.UserInputType == Enum.UserInputType.MouseMovement and not dragging then
+			tweenService:Create(option.undoColor, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(10, 10, 10)}):Play()
+		end
+	end)
+	
+	option.undoColor.InputEnded:connect(function(Input)
+		if Input.UserInputType == Enum.UserInputType.MouseMovement and not dragging then
+			tweenService:Create(option.undoColor, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(20, 20, 20)}):Play()
+		end
+	end)
 	
 	option.setColor = library:Create("ImageLabel", {
 		ZIndex = 3,
@@ -1344,13 +1342,13 @@ end)
 			table.insert(previousColors, currentColor)
 			option:SetColor(currentColor)
 		end
-		if (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) and not dragging then
+		if Input.UserInputType == Enum.UserInputType.MouseMovement and not dragging then
 			tweenService:Create(option.setColor, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(10, 10, 10)}):Play()
 		end
 	end)
 	
 	option.setColor.InputEnded:connect(function(Input)
-		if (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) and not dragging then
+		if Input.UserInputType == Enum.UserInputType.MouseMovement and not dragging then
 			tweenService:Create(option.setColor, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(20, 20, 20)}):Play()
 		end
 	end)
@@ -1407,13 +1405,13 @@ end)
 				option.rainbowText.TextColor3 = Color3.fromRGB(255, 255, 255)
 			end
 		end
-		if (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) and not dragging then
+		if Input.UserInputType == Enum.UserInputType.MouseMovement and not dragging then
 			tweenService:Create(option.rainbow, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(10, 10, 10)}):Play()
 		end
 	end)
 	
 	option.rainbow.InputEnded:connect(function(Input)
-		if (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) and not dragging then
+		if Input.UserInputType == Enum.UserInputType.MouseMovement and not dragging then
 			tweenService:Create(option.rainbow, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(20, 20, 20)}):Play()
 		end
 	end)
@@ -1475,11 +1473,11 @@ local function createColor(option, parent, holder)
 			tweenService:Create(option.mainHolder, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 0.1), {Position = UDim2.new(0, position.X - 5, 0, position.Y + 1)}):Play()
 			tweenService:Create(option.satval, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundTransparency = 0}):Play()
 			for _,object in next, option.mainHolder:GetDescendants() do
-				if object:IsA("TextLabel") then
+				if object:IsA"TextLabel" then
 					tweenService:Create(object, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextTransparency = 0}):Play()
-				elseif object:IsA("ImageLabel") then
+				elseif object:IsA"ImageLabel" then
 					tweenService:Create(object, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0}):Play()
-				elseif object:IsA("Frame") then
+				elseif object:IsA"Frame" then
 					tweenService:Create(object, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 0}):Play()
 				end
 			end
@@ -1497,11 +1495,11 @@ local function createColor(option, parent, holder)
 			tweenService:Create(option.mainHolder, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 0.1), {Position = UDim2.new(0, position.X - 5, 0, position.Y + 1)}):Play()
 			tweenService:Create(option.satval, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundTransparency = 0}):Play()
 			for _,object in next, option.mainHolder:GetDescendants() do
-				if object:IsA("TextLabel") then
+				if object:IsA"TextLabel" then
 					tweenService:Create(object, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextTransparency = 0}):Play()
-				elseif object:IsA("ImageLabel") then
+				elseif object:IsA"ImageLabel" then
 					tweenService:Create(object, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0}):Play()
-				elseif object:IsA("Frame") then
+				elseif object:IsA"Frame" then
 					tweenService:Create(object, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 0}):Play()
 				end
 			end
