@@ -1,14 +1,14 @@
 --// Destroy other instances
 for _,v in pairs(game.CoreGui:GetChildren()) do
-    if v.Name == "dark_UI" then
+    if v.Name == "BlekLib" then
         v:Destroy()
     end
 end
 
-local dark_UI = Instance.new("ScreenGui")
-dark_UI.Name = "dark_UI"
-dark_UI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-dark_UI.Parent = game.CoreGui
+local BlekLib = Instance.new("ScreenGui")
+BlekLib.Name = "BlekLib"
+BlekLib.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+BlekLib.Parent = game.CoreGui
 
 local Library = {}
 local TweenService = game:GetService("TweenService")
@@ -40,9 +40,9 @@ function Library:Create(table)
     title.Size = UDim2.fromOffset(83, 28)
     title.Parent = main
 
-    local uICorner = Instance.new("UICorner")
-    uICorner.Name = "uICorner"
-    uICorner.Parent = main
+    local uiCorner = Instance.new("UICorner")
+    uiCorner.Name = "uiCorner"
+    uiCorner.Parent = main
 
     local tabContainer = Instance.new("Frame")
     tabContainer.Name = "tabContainer"
@@ -50,54 +50,37 @@ function Library:Create(table)
     tabContainer.Position = UDim2.fromScale(0.0342, 0.188)
     tabContainer.Size = UDim2.fromOffset(454, 30)
 
-    local uICorner1 = Instance.new("UICorner")
-    uICorner1.Name = "uICorner1"
-    uICorner1.CornerRadius = UDim.new(0, 6)
-    uICorner1.Parent = tabContainer
+    local uiCorner1 = Instance.new("UICorner")
+    uiCorner1.Name = "uiCorner1"
+    uiCorner1.CornerRadius = UDim.new(0, 6)
+    uiCorner1.Parent = tabContainer
 
-    local uIListLayout = Instance.new("UIListLayout")
-    uIListLayout.Name = "uIListLayout"
-    uIListLayout.Padding = UDim.new(0, 8)
+    local uiListLayout = Instance.new("UIListLayout")
+    uiListLayout.Name = "uiListLayout"
+    uiListLayout.Padding = UDim.new(0, 8)
     uIListLayout.FillDirection = Enum.FillDirection.Horizontal
-    uIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    uIListLayout.Parent = tabContainer
+    uiListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    uiListLayout.Parent = tabContainer
 
-    local uIPadding = Instance.new("UIPadding")
-    uIPadding.Name = "uIPadding"
-    uIPadding.PaddingLeft = UDim.new(0, 7)
-    uIPadding.PaddingTop = UDim.new(0, 4)
-    uIPadding.Parent = tabContainer
-
-    local shadow = Instance.new("ImageLabel")
-    shadow.Name = "shadow"
-    shadow.Image = "rbxassetid://297774371"
-    shadow.ImageColor3 = Color3.fromRGB(15, 15, 15)
-    shadow.ImageTransparency = 0.3
-    shadow.SliceCenter = Rect.new(20, 20, 280, 280)
-    shadow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    shadow.BackgroundTransparency = 1
-    shadow.Position = UDim2.fromScale(0.224, 0.272)
-    shadow.Selectable = true
-    shadow.Size = UDim2.fromOffset(529, 331)
-    shadow.ZIndex = -1
-    shadow.Parent = dark_UI
+    local uiPadding = Instance.new("UIPadding")
+    uiPadding.Name = "uiPadding"
+    uiPadding.PaddingLeft = UDim.new(0, 7)
+    uiPadding.PaddingTop = UDim.new(0, 4)
+    uiPadding.Parent = tabContainer
 
     tabContainer.Parent = main
-    main.Parent = dark_UI
+    main.Parent = BlekLib
     main.AnchorPoint = Vector2.new(0.5,0.5)
-    shadow.AnchorPoint = Vector2.new(0.5,0.5)
 
     main.Position = UDim2.new(0.5,0,0.5,0)
-    shadow.Position = UDim2.new(0.5,0,0.5,0)
 
     local tabHandler = {}
 
     function tabHandler:Exit()
-        dark_UI:Destroy()
+        BlekLib:Destroy()
     end
 
     function tabHandler:Tab(name)
-        --// Creating the yttab
         local main1 = Instance.new("TextButton")
         main1.Name = name
         main1.Font = Enum.Font.Gotham
@@ -118,10 +101,10 @@ function Library:Create(table)
         container.Position = UDim2.fromScale(0.0342, 0.31)
         container.Size = UDim2.fromOffset(454, 183)
         
-        local uICorner2 = Instance.new("UICorner")
-        uICorner2.Name = "uICorner2"
-        uICorner2.CornerRadius = UDim.new(0, 6)
-        uICorner2.Parent = container
+        local uiCorner2 = Instance.new("UICorner")
+        uiCorner2.Name = "uiCorner2"
+        uiCorner2.CornerRadius = UDim.new(0, 6)
+        uiCorner2.Parent = container
         
         local holder = Instance.new("ScrollingFrame")
         holder.Name = "holder"
@@ -135,22 +118,22 @@ function Library:Create(table)
         holder.Position = UDim2.fromScale(0.0022, 0.00404)
         holder.Size = UDim2.fromOffset(452, 182)
 
-        local uIPadding1 = Instance.new("UIPadding")
-        uIPadding1.Name = "uIPadding1"
-        uIPadding1.PaddingLeft = UDim.new(0, 5)
-        uIPadding1.PaddingTop = UDim.new(0, 7)
-        uIPadding1.Parent = holder
+        local uiPadding1 = Instance.new("UIPadding")
+        uiPadding1.Name = "uiPadding1"
+        uiPadding1.PaddingLeft = UDim.new(0, 5)
+        uiPadding1.PaddingTop = UDim.new(0, 7)
+        uiPadding1.Parent = holder
 
-        local uIListLayout1 = Instance.new("UIListLayout")
-        uIListLayout1.Name = "uIListLayout1"
-        uIListLayout1.Padding = UDim.new(0, 3)
-        uIListLayout1.SortOrder = Enum.SortOrder.LayoutOrder
-        uIListLayout1.Parent = holder
+        local uiListLayout1 = Instance.new("UIListLayout")
+        uiListLayout1.Name = "uiListLayout1"
+        uiListLayout1.Padding = UDim.new(0, 3)
+        uiListLayout1.SortOrder = Enum.SortOrder.LayoutOrder
+        uiListLayout1.Parent = holder
 
-        local uICorner11 = Instance.new("UICorner")
-        uICorner11.Name = "uICorner11"
-        uICorner11.CornerRadius = UDim.new(0, 6)
-        uICorner11.Parent = holder
+        local uiCorner11 = Instance.new("UICorner")
+        uiCorner11.Name = "uiCorner11"
+        uiCorner11.CornerRadius = UDim.new(0, 6)
+        uiCorner11.Parent = holder
 
         holder.Parent = container
         container.Parent = main
@@ -158,12 +141,12 @@ function Library:Create(table)
 
         --// Event
         main1.MouseButton1Click:Connect(function()
-            for _,v in pairs(game.CoreGui:FindFirstChild('dark_UI').main:GetChildren()) do
+            for _,v in pairs(game.CoreGui:FindFirstChild('BlekLib').main:GetChildren()) do
                 if v.Name == "container" then
                     v.Visible = false
                 end
             end
-            for _,v in pairs(game.CoreGui['dark_UI'].main.tabContainer:GetChildren()) do
+            for _,v in pairs(game.CoreGui['BlekLib'].main.tabContainer:GetChildren()) do
                 if v:IsA('TextButton') then
                     game:GetService('TweenService'):Create(v, TweenInfo.new(0.3), {TextTransparency = 0.5}):Play()
                 end
@@ -182,7 +165,7 @@ function Library:Create(table)
             label.Parent = holder
     
             local uICorner3 = Instance.new("UICorner")
-            uICorner3.Name = "uICorner3"
+            uICorner3.Name = "uiCorner3"
             uICorner3.CornerRadius = UDim.new(0, 6)
             uICorner3.Parent = label
 
@@ -213,10 +196,10 @@ function Library:Create(table)
             button.Text = ""
             button.AutoButtonColor = false
 
-            local uICorner12 = Instance.new("UICorner")
-            uICorner12.Name = "uICorner12"
-            uICorner12.CornerRadius = UDim.new(0, 6)
-            uICorner12.Parent = button
+            local uiCorner12 = Instance.new("UICorner")
+            uiCorner12.Name = "uiCorner12"
+            uiCorner12.CornerRadius = UDim.new(0, 6)
+            uiCorner12.Parent = button
 
             local textLabel5 = Instance.new("TextLabel")
             textLabel5.Name = "textLabel5"
@@ -293,10 +276,10 @@ function Library:Create(table)
             frame.Position = UDim2.fromScale(0.753, 0.375)
             frame.Size = UDim2.fromOffset(102, 8)
 
-            local uICorner5 = Instance.new("UICorner")
-            uICorner5.Name = "uICorner5"
-            uICorner5.CornerRadius = UDim.new(0, 3)
-            uICorner5.Parent = frame
+            local uiCorner5 = Instance.new("UICorner")
+            uiCorner5.Name = "uiCorner5"
+            uiCorner5.CornerRadius = UDim.new(0, 3)
+            uiCorner5.Parent = frame
 
             local frame1 = Instance.new("Frame")
             frame1.Name = "frame1"
@@ -304,10 +287,10 @@ function Library:Create(table)
             frame1.Position = UDim2.fromScale(-0.00207, 0)
             frame1.Size = UDim2.fromOffset(44, 8)
 
-            local uICorner6 = Instance.new("UICorner")
-            uICorner6.Name = "uICorner6"
-            uICorner6.CornerRadius = UDim.new(0, 3)
-            uICorner6.Parent = frame1
+            local uiCorner6 = Instance.new("UICorner")
+            uiCorner6.Name = "uiCorner6"
+            uiCorner6.CornerRadius = UDim.new(0, 3)
+            uiCorner6.Parent = frame1
 
             frame1.Parent = frame
 
@@ -375,10 +358,10 @@ function Library:Create(table)
             toggle1.Text = ""
             toggle1.AutoButtonColor = false
 
-            local uICorner9 = Instance.new("UICorner")
-            uICorner9.Name = "uICorner9"
-            uICorner9.CornerRadius = UDim.new(0, 6)
-            uICorner9.Parent = toggle1
+            local uiCorner9 = Instance.new("UICorner")
+            uiCorner9.Name = "uiCorner9"
+            uiCorner9.CornerRadius = UDim.new(0, 6)
+            uiCorner9.Parent = toggle1
 
             local textLabel4 = Instance.new("TextLabel")
             textLabel4.Name = "textLabel4"
@@ -400,15 +383,15 @@ function Library:Create(table)
             frame3.Position = UDim2.fromScale(0.943, 0.219)
             frame3.Size = UDim2.fromOffset(18, 18)
 
-            local uICorner10 = Instance.new("UICorner")
-            uICorner10.Name = "uICorner10"
-            uICorner10.CornerRadius = UDim.new(0, 3)
-            uICorner10.Parent = frame3
+            local uiCorner10 = Instance.new("UICorner")
+            uiCorner10.Name = "uiCorner10"
+            uiCorner10.CornerRadius = UDim.new(0, 3)
+            uiCorner10.Parent = frame3
 
-            local uIStroke1 = Instance.new("UIStroke")
-            uIStroke1.Name = "uIStroke1"
-            uIStroke1.Color = Color3.fromRGB(76, 76, 76)
-            uIStroke1.Parent = frame3
+            local uiStroke1 = Instance.new("UIStroke")
+            uiStroke1.Name = "uiStroke1"
+            uiStroke1.Color = Color3.fromRGB(76, 76, 76)
+            uiStroke1.Parent = frame3
 
             frame3.Parent = toggle1
 
@@ -446,10 +429,10 @@ function Library:Create(table)
             textbox.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
             textbox.Size = UDim2.fromOffset(441, 32)
 
-            local uICorner13 = Instance.new("UICorner")
-            uICorner13.Name = "uICorner13"
-            uICorner13.CornerRadius = UDim.new(0, 6)
-            uICorner13.Parent = textbox
+            local uiCorner13 = Instance.new("UICorner")
+            uiCorner13.Name = "uiCorner13"
+            uiCorner13.CornerRadius = UDim.new(0, 6)
+            uiCorner13.Parent = textbox
 
             local textLabel6 = Instance.new("TextLabel")
             textLabel6.Name = "textLabel6"
@@ -525,12 +508,12 @@ main.InputEnded:Connect(function(input)
 end)
 
     --// Make the first tab visible
-    game.CoreGui['dark_UI'].main.tabContainer.ChildAdded:Connect(function()
-        game.CoreGui['dark_UI'].main:FindFirstChild('container').Visible = true
+    game.CoreGui['BlekLib'].main.tabContainer.ChildAdded:Connect(function()
+        game.CoreGui['BlekLib'].main:FindFirstChild('container').Visible = true
         pcall(function()
-            repeat wait() until game.CoreGui['dark_UI'].main:FindFirstChild('tabContainer'):FindFirstChildWhichIsA('TextButton')
+            repeat wait() until game.CoreGui['BlekLib'].main:FindFirstChild('tabContainer'):FindFirstChildWhichIsA('TextButton')
         end)
-        game:GetService('TweenService'):Create(game.CoreGui['dark_UI'].main:FindFirstChild('tabContainer'):FindFirstChildWhichIsA('TextButton'), TweenInfo.new(0.3), {TextTransparency = 0}):Play()
+        game:GetService('TweenService'):Create(game.CoreGui['BlekLib'].main:FindFirstChild('tabContainer'):FindFirstChildWhichIsA('TextButton'), TweenInfo.new(0.3), {TextTransparency = 0}):Play()
     end)
 
     spawn(function()
