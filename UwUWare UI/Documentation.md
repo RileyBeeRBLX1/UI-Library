@@ -1,19 +1,19 @@
-# UwUWare UI
-This documentation Is For UwUWare UI
+# Tora Library
+This documentation Is For Tora Library
 
-## Creating a UwUWare UI Library
+## Creating a Tora Library Library
 ```lua
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/RileyBeeRBLX1/UI-Library/refs/heads/main/UwUWare%20UI/Library.lua", true))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/RileyBeeRBLX1/UI-Library/refs/heads/main/Tora%20LibraryLibrary.lua",true))()
 ```
 
-## Creating a UwUWare UI Window
+## Creating a Tora Library Window
 ```lua
-local Window = Library:CreateWindow"Window"
+local Window = Library:CreateWindow("Your Title")
 ```
 
 ## Creating a Folder
 ```lua
-local Folder = Window:AddFolder"Folder"
+local Folder = Window:AddFolder("Folder")
 ```
 
 ## Creating a Button
@@ -63,6 +63,11 @@ end})
 Folder:AddColor({text = "Color", flag = "color", color = Color3.fromRGB(255, 65, 65), callback = function()
 -- Your Script Here
 end})
+```
+
+## Close UI
+```lua
+Library:Close()
 ```
 
 ## Creating a Init (YOU NEED THIS OR ELSE IT WONT LOAD UP)
