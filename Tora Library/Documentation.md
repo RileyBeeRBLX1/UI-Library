@@ -3,7 +3,7 @@ This documentation Is For Tora Library
 
 ## Creating a Tora Library Library
 ```lua
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/RileyBeeRBLX1/UI-Library/refs/heads/main/Tora%20LibraryLibrary.lua",true))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/RileyBeeRBLX1/UI-Library/refs/heads/main/Tora%20Library/Library.lua",true))()
 ```
 
 ## Creating a Tora Library Window
