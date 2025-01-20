@@ -82,8 +82,6 @@ local Dropdown = Tab:AddDropdown({
 })
 ```
 
-
-
 ## Creating a Textbox
 ```lua
 local Textbox = Tab:AddTextBox({
@@ -94,6 +92,35 @@ local Textbox = Tab:AddTextBox({
   -- Your Script Here
   end
 })
+```
+
+## Creating a Dialog
+```lua
+local Dialog = Window:Dialog({
+    Title = "Dialog",
+    Text = "This is a Dialog",
+    Options = {
+      {"Confirm", function()
+        
+      end},
+      {"Maybe", function()
+        
+      end},
+      {"Cancel", function()
+        
+      end}
+    }
+  })
+```
+
+## Creating a Paragraph
+```lua
+local Paragraph = Tab:AddParagraph({"Paragraph", "This is a Paragraph"})
+```
+
+## Selecting a Tab
+```lua
+Window:SelectTab(Tab2)
 ```
 
 ### Creating a Discord Server Invite
